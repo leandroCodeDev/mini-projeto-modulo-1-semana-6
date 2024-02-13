@@ -7,4 +7,5 @@ public class Professor {
 
     private int idade;
     private double tempoDeTrabalho;
+
 }
