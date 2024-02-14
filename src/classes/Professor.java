@@ -4,9 +4,8 @@ import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.util.Scanner;
 
-public class Professor {
+public class Professor extends Funcionario {
 //    Professor - atributos: Nome, idade, tempo de trabalho
-    private String nome;
     private Date dataContratacao;
 
     private Date dataNascimento;
@@ -16,8 +15,8 @@ public class Professor {
      * @param nome
      * @param dataNascimento format yyyy-MM-dd
      */
-    public Professor (String nome, String dataNascimento) {
-        this.nome = nome;
+    public Professor (String nome, Double salario, String dataNascimento) {
+        super (nome, salario);
         this.dataNascimento = new Date(dataNascimento);
         this.dataContratacao = new Date();
     }
@@ -28,43 +27,12 @@ public class Professor {
      * @param dataNascimento format yyyy-MM-dd
      * @param dataContratacao format yyyy-MM-dd
      */
-    public Professor (String nome, String dataNascimento, String dataContratacao) {
-        this.nome = nome;
+    public Professor (String nome, Double salario, String dataNascimento, String dataContratacao) {
+        super (nome, salario);
         this.dataNascimento = new Date(dataNascimento);
         this.dataContratacao = new Date(dataContratacao);
     }
 
-    /**
-     *
-     * @param nome
-     * @param dataNascimento format yyyy-MM-dd
-     */
-    public Professor (String nome, Date dataNascimento) {
-        this.nome = nome;
-        this.dataNascimento = dataNascimento;
-        this.dataContratacao = new Date();
-    }
-
-    /**
-     *
-     * @param nome
-     * @param dataNascimento format yyyy-MM-dd
-     * @param dataContratacao format yyyy-MM-dd
-     */
-    public Professor (String nome, Date dataNascimento, Date dataContratacao) {
-        this.nome = nome;
-        this.dataNascimento = dataNascimento;
-        this.dataContratacao = dataContratacao;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
 
     public Date getDataContratacao() {
         return dataContratacao;
