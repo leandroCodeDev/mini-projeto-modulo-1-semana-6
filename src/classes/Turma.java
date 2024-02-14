@@ -2,18 +2,43 @@ package classes;
 
 import java.util.ArrayList;
 
-public class Turma
-{
-    /**
-     * Turma - atributos: Lista de alunos, Ano, Curso
-     * - métodos: listar alunos, adicionar aluno, remover aluno
-     */
+public class Turma{
 
     private String ano;
 
     private Curso curso;
     private ArrayList<Aluno> alunos = new ArrayList<>();
 
+    public Turma(String ano, Curso curso){
+        this.ano = ano;
+        this.curso = curso;
+    }
+
+    public Turma(String ano, Curso curso,ArrayList<Aluno> alunos){
+        this.ano = ano;
+        this.curso = curso;
+        this.alunos = alunos;
+    }
+
+    public String getAno() {
+        return ano;
+    }
+
+    public void setAno(String ano) {
+        this.ano = ano;
+    }
+
+    public Curso getCurso() {
+        return curso;
+    }
+
+    public void setCurso(Curso curso) {
+        this.curso = curso;
+    }
+
+    public void setAlunos(ArrayList<Aluno> alunos) {
+        this.alunos = alunos;
+    }
 
     public ArrayList<Aluno> getAlunos(){
         return this.alunos;
