@@ -1,5 +1,7 @@
 package classes;
 
+import enums.StatusMatricula;
+
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -9,6 +11,7 @@ public class Aluno {
 
     private Date dataNascimento;
     private ArrayList<Curso> cursos;
+    private StatusMatricula matricula;
 
 
     /**
@@ -19,11 +22,13 @@ public class Aluno {
     public Aluno(String nome, String dataNascimento) {
         this.nome = nome;
         this.dataNascimento = new Date(dataNascimento);
+        this.matricula = StatusMatricula.ATIVO;
     }
 
     public Aluno(String nome, Date dataNascimento) {
         this.nome = nome;
         this.dataNascimento = dataNascimento;
+        this.matricula = StatusMatricula.ATIVO;
     }
 
     public String getNome() {
@@ -55,6 +60,14 @@ public class Aluno {
 
     public ArrayList<Curso> getCursos(){
         return this.cursos;
+    }
+
+    public StatusMatricula getMatricula() {
+        return matricula;
+    }
+
+    public void setMatricula(StatusMatricula matricula) {
+        this.matricula = matricula;
     }
 
     public void adicionarCurso(Curso curso){
