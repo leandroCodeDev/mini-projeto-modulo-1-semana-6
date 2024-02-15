@@ -1,9 +1,11 @@
 package classes;
 
+import enums.CargoFuncionario;
+
 public class Diretor extends Funcionario{
 
-    public Diretor(String nome, Double salario, String dataContratacao) {
-        super(nome, salario, dataContratacao);
+    public Diretor(String nome, Double salario, String dataContratacao, CargoFuncionario cargo) {
+        super(nome, salario, dataContratacao, cargo);
 
     }
 }

@@ -1,12 +1,14 @@
 package classes;
 
 import Interface.IFuncionario;
+import enums.CargoFuncionario;
 
 import java.util.Date;
 
 public class Funcionario implements IFuncionario {
     private String nome;
     private double salario;
+    private CargoFuncionario cargo;
 
     private Date dataContratacao;
 
@@ -15,10 +17,11 @@ public class Funcionario implements IFuncionario {
 
     }
 
-    public Funcionario(String nome, Double salario, String dataContratacao) {
+    public Funcionario(String nome, Double salario, String dataContratacao, CargoFuncionario cargo) {
         this.nome = nome;
         this.salario = salario;
         this.dataContratacao = new Date(dataContratacao);
+        this.cargo = cargo;
     }
 
     public String getNome() {
@@ -43,6 +46,14 @@ public class Funcionario implements IFuncionario {
 
     public void setDataContratacao(Date dataContratacao) {
         this.dataContratacao = dataContratacao;
+    }
+
+    public String getCargo() {
+        return cargo.getLabel();
+    }
+
+    public void setCargo(CargoFuncionario cargo) {
+        this.cargo = cargo;
     }
 
     /**

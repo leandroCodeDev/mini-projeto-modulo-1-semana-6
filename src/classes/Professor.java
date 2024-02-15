@@ -1,5 +1,7 @@
 package classes;
 
+import enums.CargoFuncionario;
+
 import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.util.Scanner;
@@ -15,8 +17,8 @@ public class Professor extends Funcionario {
      * @param dataNascimento format yyyy-MM-dd
      * @param dataContratacao format yyyy-MM-dd
      */
-    public Professor (String nome, Double salario, String dataNascimento, String dataContratacao) {
-        super (nome, salario, dataContratacao);
+    public Professor (String nome, Double salario, String dataNascimento, String dataContratacao, CargoFuncionario cargo) {
+        super (nome, salario, dataContratacao, cargo);
         this.dataNascimento = new Date(dataNascimento);
     }
 
