@@ -2,6 +2,8 @@ package classes;
 
 import enums.StatusMatricula;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -20,9 +22,21 @@ public class Aluno {
      * @param dataNascimento - Formato yyyy-MM-dd
      */
     public Aluno(String nome, String dataNascimento) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = null;
+        try {
+            date = dateFormat.parse(dataNascimento);
+            System.out.println("Parsed Date: " + date);
+        } catch (ParseException e) {
+            System.out.println("Error parsing date: " + e.getMessage());
+        } finally {
+            date = new Date();
+        }
+
         this.nome = nome;
-        this.dataNascimento = new Date(dataNascimento);
+        this.dataNascimento = date;
         this.matricula = StatusMatricula.ATIVO;
+
     }
 
     public Aluno(String nome, Date dataNascimento) {
@@ -43,14 +57,7 @@ public class Aluno {
         return dataNascimento;
     }
 
-    /**
-     * @param dataNascimento - Formato yyyy-MM-dd
-     */
-    public void setDataNascimento(String dataNascimento) {
-        this.dataNascimento = new Date(dataNascimento);
-    }
-
-    public void setDataNascimento(Date dataNascimento) {
+        public void setDataNascimento(Date dataNascimento) {
         this.dataNascimento = dataNascimento;
     }
 
