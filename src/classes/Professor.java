@@ -6,20 +6,8 @@ import java.util.Scanner;
 
 public class Professor extends Funcionario {
 //    Professor - atributos: Nome, idade, tempo de trabalho
-    private Date dataContratacao;
 
     private Date dataNascimento;
-
-    /**
-     *
-     * @param nome
-     * @param dataNascimento format yyyy-MM-dd
-     */
-    public Professor (String nome, Double salario, String dataNascimento) {
-        super (nome, salario);
-        this.dataNascimento = new Date(dataNascimento);
-        this.dataContratacao = new Date();
-    }
 
     /**
      *
@@ -28,26 +16,8 @@ public class Professor extends Funcionario {
      * @param dataContratacao format yyyy-MM-dd
      */
     public Professor (String nome, Double salario, String dataNascimento, String dataContratacao) {
-        super (nome, salario);
+        super (nome, salario, dataContratacao);
         this.dataNascimento = new Date(dataNascimento);
-        this.dataContratacao = new Date(dataContratacao);
-    }
-
-
-    public Date getDataContratacao() {
-        return dataContratacao;
-    }
-
-    public void setDataContratacao(Date dataContratacao) {
-        this.dataContratacao = dataContratacao;
-    }
-
-    /**
-     *
-     * @param dataContratacao format yyyy-MM-dd
-     */
-    public void setDataContratacao(String dataContratacao) {
-        this.dataContratacao = new Date(dataContratacao);
     }
 
     public Date getDataNascimento() {
