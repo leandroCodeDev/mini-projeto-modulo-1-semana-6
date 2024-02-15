@@ -43,4 +43,16 @@ public class Professor extends Funcionario {
         this.dataNascimento = dataNascimento;
     }
 
+    /**
+     *
+     * @param dataNascimento format yyyy-MM-dd
+     */
+    public void setDataNascimento(String dataNascimento) {
+        this.dataNascimento = new Date(dataNascimento);
+    }
+
+    @Override
+    public String toString() {
+        return "Professor [ dataNascimento:" + dataNascimento.toString() + super.toString() + "]";
+    }
 }

@@ -8,4 +8,9 @@ public class Diretor extends Funcionario{
         super(nome, salario, dataContratacao, cargo);
 
     }
+
+    @Override
+    public String toString() {
+        return "Diretor [" + super.toString() + "]";
+    }
 }

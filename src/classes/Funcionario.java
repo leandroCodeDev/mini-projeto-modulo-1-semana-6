@@ -76,4 +76,10 @@ public class Funcionario implements IFuncionario {
     public void setDataContratacao(String dataContratacao) {
         this.dataContratacao = new Date(dataContratacao);
     }
+
+
+    @Override
+    public String toString() {
+        return "Funcionario [ nome:" + nome + "salario: " + salario +"dataContratacao: " + dataContratacao.toString()+ "cargo: " + cargo.getLabel() +"]";
+    }
 }

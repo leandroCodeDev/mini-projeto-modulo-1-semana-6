@@ -51,4 +51,9 @@ public class Turma{
     public void removerAluno(Aluno aluno){
         this.alunos.remove(aluno);
     }
+
+    @Override
+    public String toString() {
+        return "Turma [ ano:" + ano +" Curso: " + curso.toString() + "]";
+    }
 }
