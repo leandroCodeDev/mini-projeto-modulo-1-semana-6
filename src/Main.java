@@ -15,8 +15,20 @@ public class Main {
      */
 
 
-        Funcionario funcionario = new Funcionario("Andre", 10000.00, "2024-02-10", CargoFuncionario.EXPERIENTE);
+        Funcionario funcionario = new Funcionario("Andre", 10000.00, "2024-02-10", CargoFuncionario.INICIANTE);
         System.out.println(funcionario.toString());
+        System.out.println(funcionario.getCargo());
+        funcionario.promover();
+        System.out.println("Funcionario promovido");
+        System.out.println(funcionario.getCargo());
+        funcionario.promover();
+        System.out.println("Funcionario promovido");
+        System.out.println(funcionario.getCargo());
+        funcionario.promover();
+        System.out.println("Funcionario promovido");
+        System.out.println(funcionario.getCargo());
+
+
 
         System.out.println(StatusMatricula.ATIVO);
         System.out.println(StatusMatricula.valueOf("TRANCADO".toUpperCase()));

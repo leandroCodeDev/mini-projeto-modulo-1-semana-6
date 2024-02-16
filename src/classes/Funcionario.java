@@ -16,7 +16,18 @@ public class Funcionario implements IFuncionario {
 
     @Override
     public void promover() {
+        
+        switch (this.cargo){
+            case CargoFuncionario.INICIANTE:
+                this.cargo = CargoFuncionario.AVANCADO;
+                break;
+            case CargoFuncionario.AVANCADO:
+                this.cargo = CargoFuncionario.EXPERIENTE;
+                break;
+            case CargoFuncionario.EXPERIENTE:
+                throw new RuntimeException("Impossivel de promover funcionario "+CargoFuncionario.EXPERIENTE.getLabel());
 
+        }
     }
 
     public Funcionario(String nome, Double salario, String dataContratacao, CargoFuncionario cargo) {
