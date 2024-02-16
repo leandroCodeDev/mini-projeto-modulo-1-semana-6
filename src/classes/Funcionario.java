@@ -11,8 +11,22 @@ public class Funcionario implements IFuncionario {
     private String nome;
     private double salario;
     private CargoFuncionario cargo;
-
     private Date dataContratacao;
+
+    private static int contador;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    private int id;
+    public static int gerarId(){
+        return contador++;
+    }
 
     @Override
     public void promover() {
@@ -35,6 +49,8 @@ public class Funcionario implements IFuncionario {
         this.salario = salario;
         this.dataContratacao = date;
         this.cargo = cargo;
+        this.id = ++contador;
+
     }
 
     public String getNome() {
