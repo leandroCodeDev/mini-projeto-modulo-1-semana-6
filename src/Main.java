@@ -1,11 +1,14 @@
 import classes.Funcionario;
+import classes.Professor;
+import classes.dados.DadosProfessores;
 import enums.CargoFuncionario;
 import enums.StatusMatricula;
+import excecoes.BuscaVazia;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws BuscaVazia {
     /**
      * O aluno deve poder selecionar uma turma ao iniciar o programa. Caso não selecione uma turma ele deve ser adicionar pelo diretor a uma turma posteriormente.
      *
@@ -18,22 +21,24 @@ public class Main {
         Funcionario funcionario = new Funcionario("Andre", 10000.00, "2024-02-10", CargoFuncionario.EXPERIENTE);
         System.out.println(funcionario.toString());
 
-        System.out.println(StatusMatricula.ATIVO);
-        System.out.println(StatusMatricula.valueOf("TRANCADO".toUpperCase()));
+        System.out.println(funcionario.getId());
 
-        StatusMatricula statusMatricula = null; // statusMatricula pode ter apenas os valores do Enum StatusMatricula, e null
-        statusMatricula = StatusMatricula.FORMADO;
+        Funcionario funcionario2 = new Funcionario("Andre", 10000.00, "2024-02-10", CargoFuncionario.EXPERIENTE);
 
-        StatusMatricula statusMatricula2 = StatusMatricula.TRANCADO;
 
-        // for -> para cada item de uma lista execute o código dentro do for
-        // para cada item de valores atribui o item a "value" e executa o codigo
-        // StatusMatricula.values() -> retorna todos os valores do enum em lista
-        for (StatusMatricula value : StatusMatricula.values()) {
-            System.out.println(value.getSituacao());
-            System.out.println(value.getDescricao());
-        }
+        System.out.println(funcionario2.getId());
 
-        System.out.println(StatusMatricula.getDescricaoPelaSituacao("Ativo"));
+        Professor professor1 = new Professor("Andre", 10000.00, "2024-02-10", "2024-02-10", CargoFuncionario.EXPERIENTE);
+        Professor professor2 = new Professor("Maria", 10000.00, "2024-02-10", "2024-02-10", CargoFuncionario.EXPERIENTE);
+
+
+        DadosProfessores dados = new DadosProfessores();
+
+        dados.adicionarProfessor(professor1);
+        dados.adicionarProfessor(professor2);
+
+        System.out.println(dados.buscarProfessorPeloIndice(1));
+        System.out.println(dados.buscarProfessorPeloID(4));
+
     }
 }
