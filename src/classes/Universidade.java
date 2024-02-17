@@ -138,6 +138,7 @@ public class Universidade {
         System.out.println("9  - Deletar Curso");
         System.out.println("10 - Deletar Professor");
         System.out.println("11 - Deletar Diretores");
+        System.out.println("12 - Promover Professor");
 
 
         Scanner scan = new Scanner(System.in);
@@ -178,7 +179,26 @@ public class Universidade {
             case (11):
                 this.deletarDiretor();
                 break;
+            case (12):
+                this.promoverProfessor();
+                break;
 
+        }
+    }
+
+    private void promoverProfessor() {
+        if (funcionarioLogado instanceof Diretor) {
+            System.out.println("Selecione o Professor a ser promovido");
+            dadosProfessores.listar();
+            System.out.println("Informa o id da Professor");
+            Scanner scan = new Scanner(System.in);
+            int id = scan.nextInt();
+            Professor professor = dadosProfessores.buscarProfessorPeloIndice(id);
+            professor.promover();
+            System.out.println("Professor promovido com sucesso");
+            System.out.println(professor.toString());
+        } else {
+            System.out.println("Você não tem autorização.");
         }
     }
 
