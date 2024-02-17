@@ -1,6 +1,7 @@
 package classes;
 
 import classes.dados.*;
+import enums.CargoFuncionario;
 
 import java.util.Scanner;
 
@@ -131,6 +132,7 @@ public class Universidade {
         System.out.println("4 - Lista Diretores");
         System.out.println("5 - Criar Curso");
         System.out.println("6 - Criar Turma");
+        System.out.println("7 - Criar Professor");
 
         Scanner scan = new Scanner(System.in);
         System.out.println("Selecine uma opção:");
@@ -155,6 +157,8 @@ public class Universidade {
             case (6):
                 this.criarTurma();
                 break;
+            case (7):
+                this.criarProfessor();
 
         }
     }
@@ -204,4 +208,49 @@ public class Universidade {
          */
 
     }
+   public void criarProfessor(){
+       if (funcionarioLogado instanceof Diretor) {
+           Scanner scan = new Scanner(System.in);
+           System.out.println("Cadastre o novo professor:");
+           System.out.println("Informe o nome do professor:");
+           String nome = scan.nextLine();
+           System.out.println("Informe o salário do professor:");
+           double salario = scan.nextDouble();
+           System.out.println("Informe a data de anivesário do professor:");
+           System.out.println("No formato aaaa-mm-dd: Ex: 2024-12-29");
+           String data = scan.next();
+           System.out.println("Informe a data de contratação do professor:");
+           System.out.println("No formato aaaa-mm-dd: Ex: 2024-12-29");
+           String dataContratacao = scan.next();
+           System.out.println("Selecione a senioridade do professor:");
+           System.out.println("1 - Iniciante: ");
+           System.out.println("2 - Avançado: ");
+           System.out.println("3 - Experiente: ");
+           int opcaoCargo = scan.nextInt();
+
+           CargoFuncionario cargoFuncionario = null;
+
+           switch (opcaoCargo){
+               case 1:
+                   cargoFuncionario = CargoFuncionario.INICIANTE;
+                   break;
+               case 2:
+                   cargoFuncionario = CargoFuncionario.AVANCADO;
+                   break;
+               case 3:
+                   cargoFuncionario = CargoFuncionario.EXPERIENTE;
+                   break;
+           }
+
+           Professor professor = new Professor(nome, salario, data, dataContratacao, cargoFuncionario);
+           this.dadosProfessores.adicionarProfessor(professor);
+
+           System.out.println("Professor cadastrado com sucesso.");
+           this.dadosProfessores.listar();
+       } else {
+           System.out.println("Você não tem autorização.");
+       }
+
+   }
+
 }

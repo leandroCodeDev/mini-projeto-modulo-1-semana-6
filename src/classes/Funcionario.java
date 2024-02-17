@@ -32,13 +32,13 @@ public class Funcionario implements IFuncionario {
     public void promover() {
         
         switch (this.cargo){
-            case CargoFuncionario.INICIANTE:
+            case INICIANTE:
                 this.cargo = CargoFuncionario.AVANCADO;
                 break;
-            case CargoFuncionario.AVANCADO:
+            case AVANCADO:
                 this.cargo = CargoFuncionario.EXPERIENTE;
                 break;
-            case CargoFuncionario.EXPERIENTE:
+            case EXPERIENTE:
                 throw new RuntimeException("Impossivel de promover funcionario "+CargoFuncionario.EXPERIENTE.getLabel());
 
         }
