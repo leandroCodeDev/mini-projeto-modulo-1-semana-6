@@ -128,6 +128,7 @@ public class Universidade {
         System.out.println("2 - Lista Curso");
         System.out.println("3 - Lista Professor");
         System.out.println("4 - Lista Diretores");
+        System.out.println("5 - Criar Curso");
 
         Scanner scan = new Scanner(System.in);
         System.out.println("Selecine uma opção:");
@@ -146,8 +147,30 @@ public class Universidade {
              case(4):
                  this.dadosDiretores.listar();
                  break;
+             case(5):
+                 this.criarCurso();
 
          }
+    }
+
+    public void criarCurso(){
+        if(funcionarioLogado instanceof Diretor) {
+            Scanner scan = new Scanner(System.in);
+            System.out.println("Cadastro de novo curso:");
+            System.out.println("Informe o nome do curso:");
+            String nome = scan.nextLine();
+
+            System.out.println("Selecione o ID do professor responsável pelo curso:");
+            this.dadosProfessores.listar();
+            int id = scan.nextInt();
+            Professor professor = dadosProfessores.buscarProfessorPeloIndice(id);
+            Curso novoCurso = new Curso(nome,professor);
+            this.dadosCurso.adicionarCurso(novoCurso);
+            System.out.println("Curso cadastrado com sucesso.");
+            this.dadosCurso.listar();
+        } else {
+            System.out.println("Você não tem autorização.");
+        }
     }
 
 
