@@ -77,10 +77,10 @@ public class Main {
         uni.getDadosDiretores().adicionarDiretor(new Diretor("Dir 4", 10.00, "2024-02-02", CargoFuncionario.AVANCADO));
 
 
-        uni.getDadosCurso().adicionarCurso(new Curso("FMT"));
-        uni.getDadosCurso().adicionarCurso(new Curso("FMT1"));
-        uni.getDadosCurso().adicionarCurso(new Curso("FMT2"));
-        uni.getDadosCurso().adicionarCurso(new Curso("FMT3"));
+        uni.getDadosCurso().adicionarCurso(new Curso("FMT",uni.getDadosProfessores().buscarProfessorPeloIndice(0)));
+        uni.getDadosCurso().adicionarCurso(new Curso("FMT1",uni.getDadosProfessores().buscarProfessorPeloIndice(1)));
+        uni.getDadosCurso().adicionarCurso(new Curso("FMT2",uni.getDadosProfessores().buscarProfessorPeloIndice(2)));
+        uni.getDadosCurso().adicionarCurso(new Curso("FMT3",uni.getDadosProfessores().buscarProfessorPeloIndice(0)));
 
 
 
