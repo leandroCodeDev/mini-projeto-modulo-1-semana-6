@@ -29,6 +29,6 @@ public class Curso {
 
     @Override
     public String toString() {
-        return "Curso [nome=" + nome + ", professor=" + professor.toString() + "]";
+        return "Curso nome: "+this.nome;
     }
 }

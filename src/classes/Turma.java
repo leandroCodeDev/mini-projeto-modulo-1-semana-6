@@ -54,6 +54,6 @@ public class Turma{
 
     @Override
     public String toString() {
-        return "Turma [ ano:" + ano +" Curso: " + curso.toString() + "]";
+        return "Turma do curso "+this.curso.getNome()+" do ano "+ this.ano;
     }
 }

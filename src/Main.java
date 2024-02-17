@@ -1,5 +1,4 @@
-import classes.Funcionario;
-import classes.Professor;
+import classes.*;
 import classes.dados.DadosProfessores;
 import enums.CargoFuncionario;
 import enums.StatusMatricula;
@@ -9,48 +8,88 @@ import excecoes.BuscaVazia;
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     public static void main(String[] args) throws BuscaVazia {
-    /**
-     * O aluno deve poder selecionar uma turma ao iniciar o programa. Caso não selecione uma turma ele deve ser adicionar pelo diretor a uma turma posteriormente.
-     *
-     * o diretor deve poder criar uma turma, listar alunos da turma, adicionar alunos e remover alunos da turma
-     *
-     * Aluno - atributos: Nome, idade
-     */
+        /**
+         * O aluno deve poder selecionar uma turma ao iniciar o programa. Caso não selecione uma turma ele deve ser adicionar pelo diretor a uma turma posteriormente.
+         *
+         * o diretor deve poder criar uma turma, listar alunos da turma, adicionar alunos e remover alunos da turma
+         *
+         * Aluno - atributos: Nome, idade
+         */
+
+//
+//        Funcionario funcionario = new Funcionario("Andre", 10000.00, "2024-02-10", CargoFuncionario.INICIANTE);
+//        System.out.println(funcionario.toString());
+//        System.out.println(funcionario.getCargo());
+//        funcionario.promover();
+//        System.out.println("Funcionario promovido");
+//        System.out.println(funcionario.getCargo());
+//        funcionario.promover();
+//        System.out.println("Funcionario promovido");
+//        System.out.println(funcionario.getCargo());
+//        funcionario.promover();
+//        System.out.println("Funcionario promovido");
+//        System.out.println(funcionario.getCargo());
+//
+//
+//
+//        System.out.println(funcionario.getId());
+//
+//        Funcionario funcionario2 = new Funcionario("Andre", 10000.00, "2024-02-10", CargoFuncionario.EXPERIENTE);
+//
+//
+//        System.out.println(funcionario2.getId());
+//
+//        Professor professor1 = new Professor("Andre", 10000.00, "2024-02-10", "2024-02-10", CargoFuncionario.EXPERIENTE);
+//        Professor professor2 = new Professor("Maria", 10000.00, "2024-02-10", "2024-02-10", CargoFuncionario.EXPERIENTE);
+//
+//
+//        DadosProfessores dados = new DadosProfessores();
+//
+//        dados.adicionarProfessor(professor1);
+//        dados.adicionarProfessor(professor2);
+//
+//        System.out.println(dados.buscarProfessorPeloIndice(1));
+//        System.out.println(dados.buscarProfessorPeloID(4));
+//
+//
+//
+//
 
 
-        Funcionario funcionario = new Funcionario("Andre", 10000.00, "2024-02-10", CargoFuncionario.INICIANTE);
-        System.out.println(funcionario.toString());
-        System.out.println(funcionario.getCargo());
-        funcionario.promover();
-        System.out.println("Funcionario promovido");
-        System.out.println(funcionario.getCargo());
-        funcionario.promover();
-        System.out.println("Funcionario promovido");
-        System.out.println(funcionario.getCargo());
-        funcionario.promover();
-        System.out.println("Funcionario promovido");
-        System.out.println(funcionario.getCargo());
+        Universidade uni = new Universidade();
 
 
 
-        System.out.println(funcionario.getId());
+        uni.getDadosTurma().adicionarTurma(new Turma("2024",new Curso("FMT")));
+        uni.getDadosTurma().adicionarTurma(new Turma("2023",new Curso("FMT1")));
+        uni.getDadosTurma().adicionarTurma(new Turma("2022",new Curso("FMT2")));
+        uni.getDadosTurma().adicionarTurma(new Turma("2021",new Curso("FMT3")));
 
-        Funcionario funcionario2 = new Funcionario("Andre", 10000.00, "2024-02-10", CargoFuncionario.EXPERIENTE);
+        uni.getDadosProfessores().adicionarProfessor(new Professor("Prof 1", 10.00, "2024-02-02", "2024-02-02", CargoFuncionario.AVANCADO));
+        uni.getDadosProfessores().adicionarProfessor(new Professor("Prof 2", 10.00, "2024-02-02", "2024-02-02", CargoFuncionario.EXPERIENTE));
+        uni.getDadosProfessores().adicionarProfessor(new Professor("Prof 3", 10.00, "2024-02-02", "2024-02-02", CargoFuncionario.INICIANTE));
+        uni.getDadosProfessores().adicionarProfessor(new Professor("Prof 4", 10.00, "2024-02-02", "2024-02-02", CargoFuncionario.AVANCADO));
 
 
-        System.out.println(funcionario2.getId());
+        uni.getDadosDiretores().adicionarDiretor(new Diretor("Dir 1", 10.00, "2024-02-02", CargoFuncionario.AVANCADO));
+        uni.getDadosDiretores().adicionarDiretor(new Diretor("Dir 2", 10.00, "2024-02-02", CargoFuncionario.EXPERIENTE));
+        uni.getDadosDiretores().adicionarDiretor(new Diretor("Dir 3", 10.00, "2024-02-02", CargoFuncionario.INICIANTE));
+        uni.getDadosDiretores().adicionarDiretor(new Diretor("Dir 4", 10.00, "2024-02-02", CargoFuncionario.AVANCADO));
 
-        Professor professor1 = new Professor("Andre", 10000.00, "2024-02-10", "2024-02-10", CargoFuncionario.EXPERIENTE);
-        Professor professor2 = new Professor("Maria", 10000.00, "2024-02-10", "2024-02-10", CargoFuncionario.EXPERIENTE);
+
+        uni.getDadosCurso().adicionarCurso(new Curso("FMT"));
+        uni.getDadosCurso().adicionarCurso(new Curso("FMT1"));
+        uni.getDadosCurso().adicionarCurso(new Curso("FMT2"));
+        uni.getDadosCurso().adicionarCurso(new Curso("FMT3"));
 
 
-        DadosProfessores dados = new DadosProfessores();
 
-        dados.adicionarProfessor(professor1);
-        dados.adicionarProfessor(professor2);
+        uni.setSessaoAberta(true);
+//        uni.setAlunoLogado(new Aluno("aluno", "2024-02-02"));
+//        uni.setFuncionarioLogado(new Professor("aluno", 10.00, "2024-02-02", "2024-02-02", CargoFuncionario.AVANCADO));
+        uni.setFuncionarioLogado(uni.getDadosDiretores().buscarDiretorPeloIndice(0));
+        uni.start();
 
-        System.out.println(dados.buscarProfessorPeloIndice(1));
-        System.out.println(dados.buscarProfessorPeloID(4));
 
     }
 }

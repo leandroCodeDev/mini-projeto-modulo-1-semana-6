@@ -51,8 +51,9 @@ public class Professor extends Funcionario {
         this.dataNascimento = new Date(dataNascimento);
     }
 
+
     @Override
     public String toString() {
-        return "Professor [ dataNascimento:" + dataNascimento.toString() + super.toString() + "]";
+        return "nome: " +super.getNome()+ " Cargo: " + super.getCargo();
     }
 }

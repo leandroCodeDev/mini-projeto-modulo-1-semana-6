@@ -34,4 +34,10 @@ public class DadosProfessores {
         return professores.get(index);
     }
 
+    public void listar() {
+        System.out.println("*** Lista de Professores ***");
+        for (int i = 0; i < professores.size(); i++) {
+            System.out.println("ID: "+i+" - " + professores.get(i).toString());
+        }
+    }
 }

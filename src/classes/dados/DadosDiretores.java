@@ -33,4 +33,10 @@ public class DadosDiretores {
         return diretores.get(index);
     }
 
+    public void listar() {
+        System.out.println("*** Lista de Diretores ***");
+        for (int i = 0; i < diretores.size(); i++) {
+            System.out.println("ID: "+i+" - " + diretores.get(i).toString());
+        }
+    }
 }

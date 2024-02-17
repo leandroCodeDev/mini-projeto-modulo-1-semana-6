@@ -11,6 +11,6 @@ public class Diretor extends Funcionario{
 
     @Override
     public String toString() {
-        return "Diretor [" + super.toString() + "]";
+        return "nome: " +super.getNome()+ " Cargo: " + super.getCargo();
     }
 }
