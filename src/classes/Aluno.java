@@ -12,7 +12,7 @@ public class Aluno {
     private String nome;
 
     private Date dataNascimento;
-    private ArrayList<Curso> cursos;
+    private ArrayList<Curso> cursos = new ArrayList<>();
     private StatusMatricula matricula;
 
 
@@ -84,9 +84,36 @@ public class Aluno {
         this.cursos.remove(curso);
     }
 
+    public void removerCurso(int indice) {
+        this.cursos.remove(this.cursos.get(indice));
+    }
+
+
+    public boolean trancarMatricula(){
+        if(this.matricula == StatusMatricula.TRANCADO){
+            return false;
+        }
+        this.matricula = StatusMatricula.TRANCADO;
+        return true;
+    }
+    public boolean ativarMatricula(){
+        if(this.matricula == StatusMatricula.ATIVO){
+            return false;
+        }
+        this.matricula = StatusMatricula.TRANCADO;
+        return true;
+    }
+
 
     @Override
     public String toString() {
         return "Aluno [nome=" + nome + ", dataNascimento=" + dataNascimento.toString() + " Matricula: " + matricula.getSituacao() + " Matricula descrição: " + matricula.getDescricao() + "]";
+    }
+
+    public void listarCursoMatriculados() {
+        System.out.println("*** Lista de Cursos matriculados ***");
+        for (int i = 0; i < cursos.size(); i++) {
+            System.out.println("ID: "+i+" - " + cursos.get(i).toString());
+        }
     }
 }

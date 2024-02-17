@@ -3,6 +3,7 @@ package classes;
 import enums.CargoFuncionario;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.util.Scanner;
@@ -50,6 +51,7 @@ public class Professor extends Funcionario {
     public void setDataNascimento(String dataNascimento) {
         this.dataNascimento = new Date(dataNascimento);
     }
+
 
 
     @Override

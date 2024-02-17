@@ -82,12 +82,25 @@ public class Main {
         uni.getDadosCurso().adicionarCurso(new Curso("FMT2",uni.getDadosProfessores().buscarProfessorPeloIndice(2)));
         uni.getDadosCurso().adicionarCurso(new Curso("FMT3",uni.getDadosProfessores().buscarProfessorPeloIndice(0)));
 
+        uni.getDadosAlunos().adicionarAluno(new Aluno("aluno 1","2024-02-02"));
+        uni.getDadosAlunos().adicionarAluno(new Aluno("aluno 2","2024-03-03"));
+        uni.getDadosAlunos().adicionarAluno(new Aluno("aluno 3","2024-04-04"));
+        uni.getDadosAlunos().adicionarAluno(new Aluno("aluno 5","2024-06-06"));
+        uni.getDadosAlunos().adicionarAluno(new Aluno("aluno 4","2024-05-05"));
+        uni.getDadosAlunos().adicionarAluno(new Aluno("aluno 6","2024-07-09"));
 
 
         uni.setSessaoAberta(true);
+
 //        uni.setAlunoLogado(new Aluno("aluno", "2024-02-02"));
-//        uni.setFuncionarioLogado(new Professor("aluno", 10.00, "2024-02-02", "2024-02-02", CargoFuncionario.AVANCADO));
-        uni.setFuncionarioLogado(uni.getDadosDiretores().buscarDiretorPeloIndice(0));
+//        uni.getAlunoLogado().adicionarCurso(uni.getDadosCurso().buscarCursoPeloIndice(0));
+//        uni.getAlunoLogado().adicionarCurso(uni.getDadosCurso().buscarCursoPeloIndice(1));
+//        uni.getAlunoLogado().setMatricula(StatusMatricula.FORMADO);
+//        uni.getAlunoLogado().setMatricula(StatusMatricula.TRANCADO);
+
+        uni.setFuncionarioLogado(uni.getDadosProfessores().buscarProfessorPeloIndice(0));
+
+        //        uni.setFuncionarioLogado(uni.getDadosDiretores().buscarDiretorPeloIndice(0));
         uni.start();
 
 

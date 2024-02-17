@@ -26,4 +26,11 @@ public class DadosAlunos {
     public ArrayList<Aluno> getAlunos() {
         return alunos;
     }
+
+    public void listar() {
+        System.out.println("*** Lista de Alunos da Faculdade ***");
+        for (int i = 0; i < alunos.size(); i++) {
+            System.out.println("ID: "+i+" - " + alunos.get(i).toString());
+        }
+    }
 }
