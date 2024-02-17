@@ -85,7 +85,7 @@ public class Universidade {
         alunoLogado = null;
         funcionarioLogado = null;
         dadosAlunos = new DadosAlunos();
-        dadosProfessores= new DadosProfessores();
+        dadosProfessores = new DadosProfessores();
         dadosDiretores = new DadosDiretores();
         dadosCurso = new DadosCurso();
         dadosTurma = new DadosTurma();
@@ -97,14 +97,14 @@ public class Universidade {
         if (sessaoAberta) {
             if (this.alunoLogado != null) {
                 this.menuAluno();
-            }else{
-                if (funcionarioLogado instanceof Diretor){
+            } else {
+                if (funcionarioLogado instanceof Diretor) {
                     this.menuDiretor();
-                }else {
+                } else {
                     this.menuProfessor();
                 }
             }
-        }else{
+        } else {
             this.selecionarMenu();
         }
     }
@@ -114,47 +114,53 @@ public class Universidade {
     }
 
 
-    public void menuAluno(){
+    public void menuAluno() {
         System.out.println("menu aluno");
     }
 
-    public void menuProfessor(){
+    public void menuProfessor() {
         System.out.println("menu professor");
     }
-    public void menuDiretor(){
-        System.out.println("Seja bem vindo:"+ this.funcionarioLogado.getNome());
+
+    public void menuDiretor() {
+        System.out.println("Seja bem vindo:" + this.funcionarioLogado.getNome());
         //teste com sub menu
         System.out.println("1 - Listar Turma");
         System.out.println("2 - Lista Curso");
         System.out.println("3 - Lista Professor");
         System.out.println("4 - Lista Diretores");
         System.out.println("5 - Criar Curso");
+        System.out.println("6 - Criar Turma");
 
         Scanner scan = new Scanner(System.in);
         System.out.println("Selecine uma opção:");
         int opcao = scan.nextInt();
 
-         switch (opcao){
-             case(1):
-                 this.dadosTurma.listar();
-                 break;
-             case(2):
-                 this.dadosCurso.listar();
-                 break;
-             case(3):
-                 this.dadosProfessores.listar();
-                 break;
-             case(4):
-                 this.dadosDiretores.listar();
-                 break;
-             case(5):
-                 this.criarCurso();
+        switch (opcao) {
+            case (1):
+                this.dadosTurma.listar();
+                break;
+            case (2):
+                this.dadosCurso.listar();
+                break;
+            case (3):
+                this.dadosProfessores.listar();
+                break;
+            case (4):
+                this.dadosDiretores.listar();
+                break;
+            case (5):
+                this.criarCurso();
+                break;
+            case (6):
+                this.criarTurma();
+                break;
 
-         }
+        }
     }
 
-    public void criarCurso(){
-        if(funcionarioLogado instanceof Diretor) {
+    public void criarCurso() {
+        if (funcionarioLogado instanceof Diretor) {
             Scanner scan = new Scanner(System.in);
             System.out.println("Cadastro de novo curso:");
             System.out.println("Informe o nome do curso:");
@@ -164,7 +170,7 @@ public class Universidade {
             this.dadosProfessores.listar();
             int id = scan.nextInt();
             Professor professor = dadosProfessores.buscarProfessorPeloIndice(id);
-            Curso novoCurso = new Curso(nome,professor);
+            Curso novoCurso = new Curso(nome, professor);
             this.dadosCurso.adicionarCurso(novoCurso);
             System.out.println("Curso cadastrado com sucesso.");
             this.dadosCurso.listar();
@@ -173,9 +179,29 @@ public class Universidade {
         }
     }
 
+    public void criarTurma() {
+        if (funcionarioLogado instanceof Diretor) {
+            Scanner scan = new Scanner(System.in);
+            System.out.println("Cadastre a nova turma:");
+            System.out.println("Informe o ano da turma:");
+            String nome = scan.nextLine();
 
-    /**
-     * escolher turma
-     */
+            System.out.println("Selecione o ID do curso da turma:");
+            this.dadosCurso.listar();
+            int id = scan.nextInt();
+            Curso curso = dadosCurso.buscarCursoPeloIndice(id);
+            Turma novaTurma = new Turma(nome, curso);
+            this.dadosTurma.adicionarTurma(novaTurma);
+            System.out.println("Turma cadastrada com sucesso.");
+            this.dadosTurma.listar();
+        } else {
+            System.out.println("Você não tem autorização.");
+        }
 
+
+        /**
+         * escolher turma
+         */
+
+    }
 }
