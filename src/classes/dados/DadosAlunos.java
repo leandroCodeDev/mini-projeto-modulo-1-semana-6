@@ -22,4 +22,8 @@ public class DadosAlunos {
         }
         return alunos.get(index);
     }
+
+    public ArrayList<Aluno> getAlunos() {
+        return alunos;
+    }
 }

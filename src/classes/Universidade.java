@@ -3,6 +3,7 @@ package classes;
 import classes.dados.*;
 import enums.CargoFuncionario;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Universidade {
@@ -126,13 +127,18 @@ public class Universidade {
     public void menuDiretor() {
         System.out.println("Seja bem vindo:" + this.funcionarioLogado.getNome());
         //teste com sub menu
-        System.out.println("1 - Listar Turma");
-        System.out.println("2 - Lista Curso");
-        System.out.println("3 - Lista Professor");
-        System.out.println("4 - Lista Diretores");
-        System.out.println("5 - Criar Curso");
-        System.out.println("6 - Criar Turma");
-        System.out.println("7 - Criar Professor");
+        System.out.println("1  - Listar Turma");
+        System.out.println("2  - Lista Curso");
+        System.out.println("3  - Lista Professor");
+        System.out.println("4  - Lista Diretores");
+        System.out.println("5  - Criar Curso");
+        System.out.println("6  - Criar Turma");
+        System.out.println("7  - Criar Professor");
+        System.out.println("8  - Deletar Turma");
+        System.out.println("9  - Deletar Curso");
+        System.out.println("10 - Deletar Professor");
+        System.out.println("11 - Deletar Diretores");
+
 
         Scanner scan = new Scanner(System.in);
         System.out.println("Selecine uma opção:");
@@ -159,9 +165,81 @@ public class Universidade {
                 break;
             case (7):
                 this.criarProfessor();
+                break;
+            case (8):
+                this.deletarTurma();
+                break;
+            case (9):
+                this.deletarCurso();
+                break;
+            case (10):
+                this.deletarProfessor();
+                break;
+            case (11):
+                this.deletarDiretor();
+                break;
 
         }
     }
+
+    public void deletarTurma() {
+        System.out.println("Selecione Turma a ser deletada");
+        dadosTurma.listar();
+        System.out.println("Informa o id da turma");
+        Scanner scan = new Scanner(System.in);
+        int id = scan.nextInt();
+        dadosTurma.removerTurma(dadosTurma.buscarTurmaPeloIndice(id));
+        System.out.println("Turma deletada com sucesso");
+    }
+
+
+    public void deletarCurso() {
+        System.out.println("Selecione o Curso a ser deletada");
+        dadosCurso.listar();
+        System.out.println("Informa o id da Curso");
+        Scanner scan = new Scanner(System.in);
+        int id = scan.nextInt();
+        Curso curso = dadosCurso.buscarCursoPeloIndice(id);
+        for (Aluno aluno : dadosAlunos.getAlunos()) {
+            aluno.getCursos().remove(curso);
+        }
+        dadosCurso.removerCurso(curso);
+
+        System.out.println("Curso deletada com sucesso");
+
+    }
+
+    public void deletarProfessor() {
+        System.out.println("Selecione o Professor a ser deletada");
+        dadosProfessores.listar();
+        System.out.println("Informa o id da Professor");
+        Scanner scan = new Scanner(System.in);
+        int id = scan.nextInt();
+        Professor professor = dadosProfessores.buscarProfessorPeloIndice(id);
+        if (funcionarioLogado == professor) {
+            System.out.println("Selecione um professor diferente para deletar");
+        } else {
+            dadosProfessores.removerProfessor(professor);
+            System.out.println("Professor deletada com sucesso");
+        }
+    }
+
+    public void deletarDiretor() {
+        System.out.println("Selecione o Diretor a ser deletada");
+        dadosDiretores.listar();
+        System.out.println("Informa o id da Diretor");
+        Scanner scan = new Scanner(System.in);
+        int id = scan.nextInt();
+        Diretor diretor = dadosDiretores.buscarDiretorPeloIndice(id);
+        if (funcionarioLogado == diretor) {
+            System.out.println("Selecione um diretor diferente para deletar");
+        } else {
+            dadosDiretores.removerDiretor(diretor);
+            System.out.println("Professor deletada com sucesso");
+        }
+
+    }
+
 
     public void criarCurso() {
         if (funcionarioLogado instanceof Diretor) {
@@ -169,7 +247,6 @@ public class Universidade {
             System.out.println("Cadastro de novo curso:");
             System.out.println("Informe o nome do curso:");
             String nome = scan.nextLine();
-
             System.out.println("Selecione o ID do professor responsável pelo curso:");
             this.dadosProfessores.listar();
             int id = scan.nextInt();
@@ -189,7 +266,6 @@ public class Universidade {
             System.out.println("Cadastre a nova turma:");
             System.out.println("Informe o ano da turma:");
             String nome = scan.nextLine();
-
             System.out.println("Selecione o ID do curso da turma:");
             this.dadosCurso.listar();
             int id = scan.nextInt();
@@ -208,49 +284,49 @@ public class Universidade {
          */
 
     }
-   public void criarProfessor(){
-       if (funcionarioLogado instanceof Diretor) {
-           Scanner scan = new Scanner(System.in);
-           System.out.println("Cadastre o novo professor:");
-           System.out.println("Informe o nome do professor:");
-           String nome = scan.nextLine();
-           System.out.println("Informe o salário do professor:");
-           double salario = scan.nextDouble();
-           System.out.println("Informe a data de anivesário do professor:");
-           System.out.println("No formato aaaa-mm-dd: Ex: 2024-12-29");
-           String data = scan.next();
-           System.out.println("Informe a data de contratação do professor:");
-           System.out.println("No formato aaaa-mm-dd: Ex: 2024-12-29");
-           String dataContratacao = scan.next();
-           System.out.println("Selecione a senioridade do professor:");
-           System.out.println("1 - Iniciante: ");
-           System.out.println("2 - Avançado: ");
-           System.out.println("3 - Experiente: ");
-           int opcaoCargo = scan.nextInt();
 
-           CargoFuncionario cargoFuncionario = null;
+    public void criarProfessor() {
+        if (funcionarioLogado instanceof Diretor) {
+            Scanner scan = new Scanner(System.in);
+            System.out.println("Cadastre o novo professor:");
+            System.out.println("Informe o nome do professor:");
+            String nome = scan.nextLine();
+            System.out.println("Informe o salário do professor:");
+            double salario = scan.nextDouble();
+            System.out.println("Informe a data de anivesário do professor:");
+            System.out.println("No formato aaaa-mm-dd: Ex: 2024-12-29");
+            String data = scan.next();
+            System.out.println("Informe a data de contratação do professor:");
+            System.out.println("No formato aaaa-mm-dd: Ex: 2024-12-29");
+            String dataContratacao = scan.next();
+            System.out.println("Selecione a senioridade do professor:");
+            System.out.println("1 - Iniciante: ");
+            System.out.println("2 - Avançado: ");
+            System.out.println("3 - Experiente: ");
+            int opcaoCargo = scan.nextInt();
 
-           switch (opcaoCargo){
-               case 1:
-                   cargoFuncionario = CargoFuncionario.INICIANTE;
-                   break;
-               case 2:
-                   cargoFuncionario = CargoFuncionario.AVANCADO;
-                   break;
-               case 3:
-                   cargoFuncionario = CargoFuncionario.EXPERIENTE;
-                   break;
-           }
+            CargoFuncionario cargoFuncionario = null;
 
-           Professor professor = new Professor(nome, salario, data, dataContratacao, cargoFuncionario);
-           this.dadosProfessores.adicionarProfessor(professor);
+            switch (opcaoCargo) {
+                case 1:
+                    cargoFuncionario = CargoFuncionario.INICIANTE;
+                    break;
+                case 2:
+                    cargoFuncionario = CargoFuncionario.AVANCADO;
+                    break;
+                case 3:
+                    cargoFuncionario = CargoFuncionario.EXPERIENTE;
+                    break;
+            }
 
-           System.out.println("Professor cadastrado com sucesso.");
-           this.dadosProfessores.listar();
-       } else {
-           System.out.println("Você não tem autorização.");
-       }
+            Professor professor = new Professor(nome, salario, data, dataContratacao, cargoFuncionario);
+            this.dadosProfessores.adicionarProfessor(professor);
+            System.out.println("Professor cadastrado com sucesso.");
+            this.dadosProfessores.listar();
+        } else {
+            System.out.println("Você não tem autorização.");
+        }
 
-   }
+    }
 
 }

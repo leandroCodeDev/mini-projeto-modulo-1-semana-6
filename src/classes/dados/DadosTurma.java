@@ -29,4 +29,8 @@ public class DadosTurma {
             System.out.println("ID: "+i+" - " + turmas.get(i).toString());
         }
     }
+
+    public ArrayList<Turma> getTurmas() {
+        return turmas;
+    }
 }
