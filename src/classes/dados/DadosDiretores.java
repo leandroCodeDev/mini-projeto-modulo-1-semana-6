@@ -1,6 +1,7 @@
 package classes.dados;
 
 import classes.Diretor;
+import classes.Professor;
 import excecoes.BuscaVazia;
 
 import java.util.ArrayList;
@@ -38,5 +39,14 @@ public class DadosDiretores {
         for (int i = 0; i < diretores.size(); i++) {
             System.out.println("ID: "+i+" - " + diretores.get(i).toString());
         }
+    }
+
+    public Diretor buscaPeloNome(String nome){
+        for (Diretor a : diretores) {
+            if (a.getNome().equals(nome)) {
+                return a;
+            }
+        }
+        return null;
     }
 }

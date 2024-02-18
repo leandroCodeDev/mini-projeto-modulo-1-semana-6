@@ -90,7 +90,6 @@ public class Main {
         uni.getDadosAlunos().adicionarAluno(new Aluno("aluno 6","2024-07-09"));
 
 
-        uni.setSessaoAberta(true);
 
 //        uni.setAlunoLogado(new Aluno("aluno", "2024-02-02"));
 //        uni.getAlunoLogado().adicionarCurso(uni.getDadosCurso().buscarCursoPeloIndice(0));
@@ -98,7 +97,7 @@ public class Main {
 //        uni.getAlunoLogado().setMatricula(StatusMatricula.FORMADO);
 //        uni.getAlunoLogado().setMatricula(StatusMatricula.TRANCADO);
 
-        uni.setFuncionarioLogado(uni.getDadosProfessores().buscarProfessorPeloIndice(0));
+//        uni.setFuncionarioLogado(uni.getDadosProfessores().buscarProfessorPeloIndice(0));
 
         //        uni.setFuncionarioLogado(uni.getDadosDiretores().buscarDiretorPeloIndice(0));
         uni.start();

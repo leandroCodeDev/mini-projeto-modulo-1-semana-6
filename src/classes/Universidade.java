@@ -4,12 +4,11 @@ import classes.dados.*;
 import enums.CargoFuncionario;
 import enums.StatusMatricula;
 
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Universidade {
 
-    private boolean sessaoAberta;
+
     private Aluno alunoLogado;
     private Funcionario funcionarioLogado;
     private DadosAlunos dadosAlunos;
@@ -19,13 +18,7 @@ public class Universidade {
     private DadosTurma dadosTurma;
 
 
-    public boolean isSessaoAberta() {
-        return sessaoAberta;
-    }
 
-    public void setSessaoAberta(boolean sessaoAberta) {
-        this.sessaoAberta = sessaoAberta;
-    }
 
     public Aluno getAlunoLogado() {
         return alunoLogado;
@@ -84,7 +77,6 @@ public class Universidade {
     }
 
     public Universidade() {
-        sessaoAberta = false;
         alunoLogado = null;
         funcionarioLogado = null;
         dadosAlunos = new DadosAlunos();
@@ -97,23 +89,63 @@ public class Universidade {
 
 
     public void start() {
-        if (sessaoAberta) {
-            if (this.alunoLogado != null) {
-                this.menuAluno();
-            } else {
-                if (funcionarioLogado instanceof Diretor) {
-                    this.menuDiretor();
-                } else {
-                    this.menuProfessor();
-                }
-            }
-        } else {
+
+        if (this.alunoLogado != null) {
+            this.menuAluno();
+        } else if (funcionarioLogado instanceof Diretor) {
+                this.menuDiretor();
+        } else if (funcionarioLogado instanceof Professor) {
+            this.menuProfessor();
+        }else{
             this.selecionarMenu();
         }
     }
 
     private void selecionarMenu() {
-        System.out.println("seleciona menu");
+        System.out.println("seleciona Area de Acesso");
+        System.out.println("1  - Diretor");
+        System.out.println("2  - Professor");
+        System.out.println("3  - Aluno");
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Selecine uma opção:");
+        int opcao = scan.nextInt();
+        switch (opcao){
+            case (1):
+                this.logarDiretor();
+                break;
+            case (2):
+                this.logarProfessor();
+                break;
+            case (3):
+                this.logarAluno();
+                break;
+
+        }
+
+        this.start();
+    }
+
+    private void logarAluno() {
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Informe o seu nome:");
+        String nome = scan.nextLine();
+        this.alunoLogado = dadosAlunos.buscaPeloNome(nome);
+
+
+    }
+
+    private void logarProfessor() {
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Informe o seu nome:");
+        String nome = scan.nextLine();
+        this.funcionarioLogado = dadosProfessores.buscaPeloNome(nome);
+    }
+
+    private void logarDiretor() {
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Informe o seu nome:");
+        String nome = scan.nextLine();
+        this.funcionarioLogado = dadosDiretores.buscaPeloNome(nome);
     }
 
 

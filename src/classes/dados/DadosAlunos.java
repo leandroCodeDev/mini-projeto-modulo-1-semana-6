@@ -33,4 +33,13 @@ public class DadosAlunos {
             System.out.println("ID: "+i+" - " + alunos.get(i).toString());
         }
     }
+
+    public Aluno buscaPeloNome(String nome){
+        for (Aluno a : alunos) {
+            if (a.getNome().equals(nome)) {
+                return a;
+            }
+        }
+        return null;
+    }
 }
