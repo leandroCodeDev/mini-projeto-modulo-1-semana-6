@@ -23,8 +23,6 @@ public class Universidade {
     private DadosTurma dadosTurma;
 
 
-
-
     public Aluno getAlunoLogado() {
         return alunoLogado;
     }
@@ -98,10 +96,10 @@ public class Universidade {
         if (this.alunoLogado != null) {
             this.menuAluno();
         } else if (funcionarioLogado instanceof Diretor) {
-                this.menuDiretor();
+            this.menuDiretor();
         } else if (funcionarioLogado instanceof Professor) {
             this.menuProfessor();
-        }else{
+        } else {
             this.selecionarMenu();
         }
     }
@@ -116,9 +114,9 @@ public class Universidade {
                     " 3  - Aluno\n\n" +
                     " Selecine uma opção:\n";
             opcao = ScannerHelper.lerInteiro(questao);
-        }while (!ArrayHelper.valorExiste(opcaoesValidas,opcao));
+        } while (!ArrayHelper.valorExiste(opcaoesValidas, opcao));
 
-        switch (opcao){
+        switch (opcao) {
             case (1):
                 this.logarDiretor();
                 break;
@@ -134,108 +132,115 @@ public class Universidade {
     }
 
     private void logarAluno() {
-        int count =0;
+        int count = 0;
         do {
-            if(count == 5){
+            if (count == 5) {
                 System.out.println("Voce exedeu o numero de tentativas.");
                 break;
             }
             String nome = ScannerHelper.lerString("Informe o seu nome:");
             this.alunoLogado = dadosAlunos.buscaPeloNome(nome);
             count++;
-        }while (this.alunoLogado == null);
+        } while (this.alunoLogado == null);
 
 
     }
 
     private void logarProfessor() {
-        int count =0;
+        int count = 0;
         do {
-            if(count == 5){
+            if (count == 5) {
                 System.out.println("Voce exedeu o numero de tentativas.");
                 break;
             }
             String nome = ScannerHelper.lerString("Informe o seu nome:");
             this.funcionarioLogado = dadosProfessores.buscaPeloNome(nome);
             count++;
-        }while (this.funcionarioLogado == null);
+        } while (this.funcionarioLogado == null);
 
     }
 
     private void logarDiretor() {
-        int count =0;
+        int count = 0;
         do {
-            if(count == 5){
+            if (count == 5) {
                 System.out.println("Voce exedeu o numero de tentativas.");
                 break;
             }
             String nome = ScannerHelper.lerString("Informe o seu nome:");
             this.funcionarioLogado = dadosDiretores.buscaPeloNome(nome);
             count++;
-        }while (this.funcionarioLogado == null);
+        } while (this.funcionarioLogado == null);
     }
 
 
     public void menuAluno() {
-        int[] opcaoesValidas ={1, 2, 3, 4, 5};
-        int opcao = 0;
         do {
-            String questao = "Seja bem vindo: " + this.alunoLogado.getNome()  +
-                    " \n 1  - Listar Cursos da universidade\n" +
-                    " 2  - Listar seus Cursos\n" +
-                    " 3  - Adicioinar Curso\n" +
-                    " 4  - Remover Curso\n";
+            int[] opcaoesValidas = {1, 2, 3, 4, 5};
+            int opcao = 0;
+            do {
+                String questao = "Seja bem vindo: " + this.alunoLogado.getNome() +
+                        " \n 1  - Listar Cursos da universidade\n" +
+                        " 2  - Listar seus Cursos\n" +
+                        " 3  - Adicioinar Curso\n" +
+                        " 4  - Remover Curso\n";
 
-            if(this.alunoLogado.getMatricula() != StatusMatricula.FORMADO) {
-                if(this.alunoLogado.getMatricula() == StatusMatricula.ATIVO) {
-                    questao += " 5  - Trancar Matricula \n\n";
-                }else{
-                    questao += " 5  - Ativa Matricula \n\n";
-                }
-            }
-            questao += " Selecione uma opção:";
-            opcao = ScannerHelper.lerInteiro(questao);
-        }while (!ArrayHelper.valorExiste(opcaoesValidas,opcao));
-
-        switch (opcao) {
-            case (1):
-                this.dadosCurso.listar();
-                break;
-            case (2):
-                this.alunoLogado.listarCursoMatriculados();
-                break;
-            case (3):
-                this.AdicionarCursoEmAluno();
-                break;
-            case (4):
-                this.removerCursoEmAluno();
-                break;
-            case (5):
-                if(this.alunoLogado.getMatricula() != StatusMatricula.FORMADO) {
-                    if(this.alunoLogado.getMatricula() == StatusMatricula.ATIVO) {
-                        this.trancarMatriculaAluno();
-                    }else{
-                        this.ativarMatriculaAluno();
+                if (this.alunoLogado.getMatricula() != StatusMatricula.FORMADO) {
+                    if (this.alunoLogado.getMatricula() == StatusMatricula.ATIVO) {
+                        questao += " 5  - Trancar Matricula \n\n";
+                    } else {
+                        questao += " 5  - Ativa Matricula \n\n";
                     }
                 }
-                break;
-        }
+                questao += " Selecione uma opção:";
+                opcao = ScannerHelper.lerInteiro(questao);
+            } while (!ArrayHelper.valorExiste(opcaoesValidas, opcao));
+
+            switch (opcao) {
+                case (1):
+                    this.dadosCurso.listar();
+                    break;
+                case (2):
+                    this.alunoLogado.listarCursoMatriculados();
+                    break;
+                case (3):
+                    this.AdicionarCursoEmAluno();
+                    break;
+                case (4):
+                    this.removerCursoEmAluno();
+                    break;
+                case (5):
+                    if (this.alunoLogado.getMatricula() != StatusMatricula.FORMADO) {
+                        if (this.alunoLogado.getMatricula() == StatusMatricula.ATIVO) {
+                            this.trancarMatriculaAluno();
+                        } else {
+                            this.ativarMatriculaAluno();
+                        }
+                    }
+                    break;
+            }
+            int querSair = ScannerHelper.lerInteiro("Digite um número (digite 0 para sair): \n");
+            if (querSair == 0) {
+                System.out.println("Você escolheu sair.");
+                break; // Parar o laço se o número for 0
+            }
+        } while (true);
     }
 
     private void ativarMatriculaAluno() {
         Boolean status = this.alunoLogado.ativarMatricula();
-        if(status){
+        if (status) {
             System.out.println("Matricula ativada com sucesso");
-        }else {
+        } else {
             System.out.println("Ocorreu um erro ao tentar  ativar a Matricula");
         }
     }
 
     private void trancarMatriculaAluno() {
         Boolean status = this.alunoLogado.trancarMatricula();
-        if(status){
+        if (status) {
             System.out.println("Matricula trancada com sucesso");
-        }else {
+        } else {
             System.out.println("Ocorreu um erro ao tentar  trancar a Matricula");
         }
     }
@@ -260,28 +265,35 @@ public class Universidade {
     }
 
     public void menuProfessor() {
-        int[] opcoes = {1,2,3};
-        int opcao = 0;
-        do{
-            String questao = " Seja bem vindo:" + this.funcionarioLogado.getNome() +
-                    "\n 1  - Listar Alunos \n" +
-                    " 2  - Adicionar alunos a uma turma \n" +
-                    " 3  - Remover alunos a uma turma \n\n" +
-                    "Selecine uma opção:";
+        do {
+            int[] opcoes = {1, 2, 3};
+            int opcao = 0;
+            do {
+                String questao = " Seja bem vindo:" + this.funcionarioLogado.getNome() +
+                        "\n 1  - Listar Alunos \n" +
+                        " 2  - Adicionar alunos a uma turma \n" +
+                        " 3  - Remover alunos a uma turma \n\n" +
+                        "Selecine uma opção:";
                 opcao = ScannerHelper.lerInteiro(questao);
-        }while (!ArrayHelper.valorExiste(opcoes,opcao));
-        switch (opcao) {
-            case (1):
-                this.dadosAlunos.listar();
-                break;
-            case (2):
-                this.adicionarAlunoTurma();
-                break;
-            case (3):
-                this.removerAlunoTurma();
-                break;
+            } while (!ArrayHelper.valorExiste(opcoes, opcao));
+            switch (opcao) {
+                case (1):
+                    this.dadosAlunos.listar();
+                    break;
+                case (2):
+                    this.adicionarAlunoTurma();
+                    break;
+                case (3):
+                    this.removerAlunoTurma();
+                    break;
 
-        }
+            }
+            int querSair = ScannerHelper.lerInteiro("Digite um número (digite 0 para sair): \n");
+            if (querSair == 0) {
+                System.out.println("Você escolheu sair.");
+                break; // Parar o laço se o número for 0
+            }
+        } while (true);
 
     }
 
@@ -305,48 +317,55 @@ public class Universidade {
         int idAluno = ScannerHelper.lerInteiro("Selecione o id do aluno para adicionar a turma: " + turma.toString());
         Aluno aluno = dadosAlunos.buscarAlunoPeloIndice(idAluno);
         turma.adiconarAluno(aluno);
-        System.out.println("Aluno " +aluno.getNome() + " foi adicionado com sucesso na turma" + turma.toString());
+        System.out.println("Aluno " + aluno.getNome() + " foi adicionado com sucesso na turma" + turma.toString());
         turma.listarAlunos();
     }
 
     public void menuDiretor() {
-        int[] opcoes = {1, 2, 3, 4, 5,6,7};
-        int opcao = 0;
         do {
-            String questao = " Seja bem vindo:" + this.funcionarioLogado.getNome() +
-                    "\n 1  - Listar Alunos\n" +
-                    " 2  - Lista Professor\n" +
-                    " 3  - Criar Aluno\n" +
-                    " 4  - Criar Professor\n" +
-                    " 5  - Deletar Aluno\n" +
-                    " 6  - Deletar Professor\n" +
-                    " 7  - Promover Professor \n\n" +
-                    " Selecine uma opção:";
-            opcao = ScannerHelper.lerInteiro(questao);
-        }while (!ArrayHelper.valorExiste(opcoes,opcao));
-        switch (opcao) {
-            case (1):
-                this.dadosAlunos.listar();
-                break;
-            case (2):
-                this.dadosProfessores.listar();
-                break;
-            case (3):
-                this.criarAluno();
-                break;
-            case (4):
-                this.criarProfessor();
-                break;
-            case (5):
-                this.deletarAluno();
-                break;
-            case (6):
-                this.deletarProfessor();
-                break;
-            case (7):
-                this.promoverProfessor();
-                break;
-        }
+            int[] opcoes = {1, 2, 3, 4, 5, 6, 7};
+            int opcao = 0;
+            do {
+                String questao = " Seja bem vindo:" + this.funcionarioLogado.getNome() +
+                        "\n 1  - Listar Alunos\n" +
+                        " 2  - Lista Professor\n" +
+                        " 3  - Criar Aluno\n" +
+                        " 4  - Criar Professor\n" +
+                        " 5  - Deletar Aluno\n" +
+                        " 6  - Deletar Professor\n" +
+                        " 7  - Promover Professor \n\n" +
+                        " Selecine uma opção:";
+                opcao = ScannerHelper.lerInteiro(questao);
+            } while (!ArrayHelper.valorExiste(opcoes, opcao));
+            switch (opcao) {
+                case (1):
+                    this.dadosAlunos.listar();
+                    break;
+                case (2):
+                    this.dadosProfessores.listar();
+                    break;
+                case (3):
+                    this.criarAluno();
+                    break;
+                case (4):
+                    this.criarProfessor();
+                    break;
+                case (5):
+                    this.deletarAluno();
+                    break;
+                case (6):
+                    this.deletarProfessor();
+                    break;
+                case (7):
+                    this.promoverProfessor();
+                    break;
+            }
+            int querSair = ScannerHelper.lerInteiro("Digite um número (digite 0 para sair): \n");
+            if (querSair == 0) {
+                System.out.println("Você escolheu sair.");
+                break; // Parar o laço se o número for 0
+            }
+        } while (true);
     }
 
     private void deletarAluno() {
@@ -365,18 +384,18 @@ public class Universidade {
                 Scanner scan = new Scanner(System.in);
                 System.out.println("Cadastre um novo Aluno:");
                 String nome = ScannerHelper.lerString("Informe o nome do Aluno:");
-                String data = ScannerHelper.lerString("Informe a data de anivesário do professor: \n" +
+                String data = ScannerHelper.lerString("Informe a data de anivesário do Aluno: \n" +
                         "No formato dd/mm/aaaa: Ex: 29/03/2024");
                 Aluno aluno = new Aluno(nome, DataHelper.converterStringParaData(data));
                 System.out.println("Aluno cadastrada com sucesso.");
                 this.dadosAlunos.adicionarAluno(aluno);
                 this.dadosAlunos.listar();
-            }catch (ParseException e){
+            } catch (ParseException e) {
                 System.out.println("Ocorreu um erro ao tentar criar a data");
-            }catch (Exception e){
-                System.out.println("Ocorreu um erro inesperado ao tenatr criar o professor");
-            }finally {
-
+            } catch (Exception e) {
+                System.out.println("Ocorreu um erro inesperado ao tentar criar o Aluno");
+            } finally {
+                System.out.println("Fim da rotina Criar Aluno");
             }
         } else {
             System.out.println("Você não tem autorização.");
@@ -523,12 +542,12 @@ public class Universidade {
                 this.dadosProfessores.adicionarProfessor(professor);
                 System.out.println("Professor cadastrado com sucesso.");
                 this.dadosProfessores.listar();
-            }catch (ParseException e){
+            } catch (ParseException e) {
                 System.out.println("Ocorreu um erro ao tentar criar a data");
-            }catch (Exception e){
+            } catch (Exception e) {
                 System.out.println("Ocorreu um erro inesperado ao tenatr criar o professor");
-            }finally {
-
+            } finally {
+                System.out.println("Fim da rotina Criar professor");
             }
         } else {
             System.out.println("Você não tem autorização.");
@@ -537,8 +556,7 @@ public class Universidade {
     }
 
 
-
-    public void populeDados(){
+    public void populeDados() {
         try {
             this.getDadosTurma().adicionarTurma(new Turma("2024", new Curso("FMT")));
             this.getDadosTurma().adicionarTurma(new Turma("2023", new Curso("FMT1")));
@@ -563,17 +581,16 @@ public class Universidade {
             this.getDadosAlunos().adicionarAluno(new Aluno("aluno 4", DataHelper.converterStringParaData("05/05/2024")));
             this.getDadosAlunos().adicionarAluno(new Aluno("aluno 6", DataHelper.converterStringParaData("09/07/2024")));
 
-//        this.setAlunoLogado(this.getDadosAlunos().buscarAlunoPeloIndice(0));
+            this.setAlunoLogado(this.getDadosAlunos().buscarAlunoPeloIndice(0));
 //        this.getAlunoLogado().adicionarCurso(this.getDadosCurso().buscarCursoPeloIndice(0));
 //        this.getAlunoLogado().adicionarCurso(this.getDadosCurso().buscarCursoPeloIndice(1));
 //        this.getAlunoLogado().setMatricula(StatusMatricula.FORMADO);
 //        this.getAlunoLogado().setMatricula(StatusMatricula.TRANCADO);
-        this.setFuncionarioLogado(this.getDadosProfessores().buscarProfessorPeloIndice(0));
+//        this.setFuncionarioLogado(this.getDadosProfessores().buscarProfessorPeloIndice(0));
 //        this.setFuncionarioLogado(this.getDadosDiretores().buscarDiretorPeloIndice(0));
-        }catch (ParseException e){
-            throw new RuntimeException("ocorreu um Erro:" +e.getMessage());
+        } catch (ParseException e) {
+            throw new RuntimeException("ocorreu um Erro:" + e.getMessage());
         }
-
 
 
     }
