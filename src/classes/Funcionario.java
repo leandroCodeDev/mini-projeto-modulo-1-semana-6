@@ -2,6 +2,7 @@ package classes;
 
 import Interface.IFuncionario;
 import enums.CargoFuncionario;
+import helper.DataHelper;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -44,21 +45,10 @@ public class Funcionario implements IFuncionario {
         }
     }
 
-    public Funcionario(String nome, Double salario, String dataContratacao, CargoFuncionario cargo) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        Date date = null;
-        try {
-            date = dateFormat.parse(dataContratacao);
-            System.out.println("Parsed Date: " + date);
-        } catch (ParseException e) {
-            System.out.println("Error parsing date: " + e.getMessage());
-        } finally {
-            date = new Date();
-        }
-
+    public Funcionario(String nome, Double salario, Date dataContratacao, CargoFuncionario cargo) {
         this.nome = nome;
         this.salario = salario;
-        this.dataContratacao = date;
+        this.dataContratacao = dataContratacao;
         this.cargo = cargo;
         this.id = ++contador;
 
@@ -107,6 +97,6 @@ public class Funcionario implements IFuncionario {
 
     @Override
     public String toString() {
-        return "Funcionario [ nome:" + nome + "salario: " + salario +"dataContratacao: " + dataContratacao.toString()+ "cargo: " + cargo.getLabel() +"]";
+        return "Funcionario [ nome:" + nome + "salario: " + salario +"dataContratacao: " + DataHelper.converterDataParaString(dataContratacao) + "cargo: " + cargo.getLabel() +"]";
     }
 }

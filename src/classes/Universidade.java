@@ -3,7 +3,12 @@ package classes;
 import classes.dados.*;
 import enums.CargoFuncionario;
 import enums.StatusMatricula;
+import helper.ArrayHelper;
+import helper.DataHelper;
+import helper.ScannerHelper;
 
+import javax.xml.crypto.Data;
+import java.text.ParseException;
 import java.util.Scanner;
 
 public class Universidade {
@@ -102,13 +107,17 @@ public class Universidade {
     }
 
     private void selecionarMenu() {
-        System.out.println("seleciona Area de Acesso");
-        System.out.println("1  - Diretor");
-        System.out.println("2  - Professor");
-        System.out.println("3  - Aluno");
-        Scanner scan = new Scanner(System.in);
-        System.out.println("Selecine uma opção:");
-        int opcao = scan.nextInt();
+        int[] opcaoesValidas = {1, 2, 3};
+        int opcao = 0;
+        do {
+            String questao = "seleciona Area de Acesso \n" +
+                    " 1  - Diretor\n" +
+                    " 2  - Professor\n" +
+                    " 3  - Aluno\n\n" +
+                    " Selecine uma opção:\n";
+            opcao = ScannerHelper.lerInteiro(questao);
+        }while (!ArrayHelper.valorExiste(opcaoesValidas,opcao));
+
         switch (opcao){
             case (1):
                 this.logarDiretor();
@@ -119,53 +128,74 @@ public class Universidade {
             case (3):
                 this.logarAluno();
                 break;
-
         }
 
         this.start();
     }
 
     private void logarAluno() {
-        Scanner scan = new Scanner(System.in);
-        System.out.println("Informe o seu nome:");
-        String nome = scan.nextLine();
-        this.alunoLogado = dadosAlunos.buscaPeloNome(nome);
+        int count =0;
+        do {
+            if(count == 5){
+                System.out.println("Voce exedeu o numero de tentativas.");
+                break;
+            }
+            String nome = ScannerHelper.lerString("Informe o seu nome:");
+            this.alunoLogado = dadosAlunos.buscaPeloNome(nome);
+            count++;
+        }while (this.alunoLogado == null);
 
 
     }
 
     private void logarProfessor() {
-        Scanner scan = new Scanner(System.in);
-        System.out.println("Informe o seu nome:");
-        String nome = scan.nextLine();
-        this.funcionarioLogado = dadosProfessores.buscaPeloNome(nome);
+        int count =0;
+        do {
+            if(count == 5){
+                System.out.println("Voce exedeu o numero de tentativas.");
+                break;
+            }
+            String nome = ScannerHelper.lerString("Informe o seu nome:");
+            this.funcionarioLogado = dadosProfessores.buscaPeloNome(nome);
+            count++;
+        }while (this.funcionarioLogado == null);
+
     }
 
     private void logarDiretor() {
-        Scanner scan = new Scanner(System.in);
-        System.out.println("Informe o seu nome:");
-        String nome = scan.nextLine();
-        this.funcionarioLogado = dadosDiretores.buscaPeloNome(nome);
+        int count =0;
+        do {
+            if(count == 5){
+                System.out.println("Voce exedeu o numero de tentativas.");
+                break;
+            }
+            String nome = ScannerHelper.lerString("Informe o seu nome:");
+            this.funcionarioLogado = dadosDiretores.buscaPeloNome(nome);
+            count++;
+        }while (this.funcionarioLogado == null);
     }
 
 
     public void menuAluno() {
-        System.out.println("Seja bem vindo:" + this.alunoLogado.getNome());
-        //teste com sub menu
-        System.out.println("1  - Listar Cursos da universidade");
-        System.out.println("2  - Listar seus Cursos");
-        System.out.println("3  - Adicioinar Curso");
-        System.out.println("4  - Remover Curso");
-        if(this.alunoLogado.getMatricula() != StatusMatricula.FORMADO) {
-            if(this.alunoLogado.getMatricula() == StatusMatricula.ATIVO) {
-                System.out.println("5  - Trancar Matricula");
-            }else{
-                System.out.println("6  - Ativa Matricula");
+        int[] opcaoesValidas ={1, 2, 3, 4, 5};
+        int opcao = 0;
+        do {
+            String questao = "Seja bem vindo: " + this.alunoLogado.getNome()  +
+                    " \n 1  - Listar Cursos da universidade\n" +
+                    " 2  - Listar seus Cursos\n" +
+                    " 3  - Adicioinar Curso\n" +
+                    " 4  - Remover Curso\n";
+
+            if(this.alunoLogado.getMatricula() != StatusMatricula.FORMADO) {
+                if(this.alunoLogado.getMatricula() == StatusMatricula.ATIVO) {
+                    questao += " 5  - Trancar Matricula \n\n";
+                }else{
+                    questao += " 5  - Ativa Matricula \n\n";
+                }
             }
-        }
-        Scanner scan = new Scanner(System.in);
-        System.out.println("Selecine uma opção:");
-        int opcao = scan.nextInt();
+            questao += " Selecione uma opção:";
+            opcao = ScannerHelper.lerInteiro(questao);
+        }while (!ArrayHelper.valorExiste(opcaoesValidas,opcao));
 
         switch (opcao) {
             case (1):
@@ -181,10 +211,13 @@ public class Universidade {
                 this.removerCursoEmAluno();
                 break;
             case (5):
-                this.trancarMatriculaAluno();
-                break;
-            case (6):
-                this.ativarMatriculaAluno();
+                if(this.alunoLogado.getMatricula() != StatusMatricula.FORMADO) {
+                    if(this.alunoLogado.getMatricula() == StatusMatricula.ATIVO) {
+                        this.trancarMatriculaAluno();
+                    }else{
+                        this.ativarMatriculaAluno();
+                    }
+                }
                 break;
         }
     }
@@ -208,22 +241,18 @@ public class Universidade {
     }
 
     private void removerCursoEmAluno() {
-        Scanner scan = new Scanner(System.in);
         System.out.println("Selecione um curso para ser removido");
         this.alunoLogado.listarCursoMatriculados();
-        System.out.println("Informa o id da Curso a ser removido");
-        int opcao = scan.nextInt();
+        int opcao = ScannerHelper.lerInteiro("Informa o id da Curso a ser removido");
         this.alunoLogado.removerCurso(opcao);
         System.out.println("Curso removido com sucesso");
         this.alunoLogado.listarCursoMatriculados();
     }
 
     private void AdicionarCursoEmAluno() {
-        Scanner scan = new Scanner(System.in);
         System.out.println("Selecione um curso para se matricular");
         this.dadosCurso.listar();
-        System.out.println("Informa o id da Curso");
-        int opcao = scan.nextInt();
+        int opcao = ScannerHelper.lerInteiro("Informa o id da Curso");
         Curso curso = dadosCurso.buscarCursoPeloIndice(opcao);
         this.alunoLogado.adicionarCurso(curso);
         System.out.println("Curso adicionado com sucesso");
@@ -231,17 +260,16 @@ public class Universidade {
     }
 
     public void menuProfessor() {
-        System.out.println("Seja bem vindo:" + this.funcionarioLogado.getNome());
-        //teste com sub menu
-        System.out.println("1  - Listar Alunos");
-        System.out.println("2  - Adicionar alunos a uma turma");
-        System.out.println("3  - Remover alunos a uma turma");
-
-
-        Scanner scan = new Scanner(System.in);
-        System.out.println("Selecine uma opção:");
-        int opcao = scan.nextInt();
-
+        int[] opcoes = {1,2,3};
+        int opcao = 0;
+        do{
+            String questao = " Seja bem vindo:" + this.funcionarioLogado.getNome() +
+                    "\n 1  - Listar Alunos \n" +
+                    " 2  - Adicionar alunos a uma turma \n" +
+                    " 3  - Remover alunos a uma turma \n\n" +
+                    "Selecine uma opção:";
+                opcao = ScannerHelper.lerInteiro(questao);
+        }while (!ArrayHelper.valorExiste(opcoes,opcao));
         switch (opcao) {
             case (1):
                 this.dadosAlunos.listar();
@@ -260,13 +288,10 @@ public class Universidade {
     private void removerAlunoTurma() {
         System.out.println("Selecione o Curso");
         this.dadosTurma.listar();
-        System.out.println("Informa o id da Turma");
-        Scanner scan = new Scanner(System.in);
-        int id = scan.nextInt();
+        int id = ScannerHelper.lerInteiro("Informa o id da Turma");
         Turma turma = dadosTurma.buscarTurmaPeloIndice(id);
         turma.listarAlunos();
-        System.out.println("Selecione o id do aluno para remover da turma: " + turma.toString());
-        int idAluno = scan.nextInt();
+        int idAluno = ScannerHelper.lerInteiro("Selecione o id do aluno para remover da turma: " + turma.toString());
         turma.removerAluno(idAluno);
         System.out.println("Aluno foi removido com sucesso da turma" + turma.toString());
     }
@@ -274,13 +299,10 @@ public class Universidade {
     private void adicionarAlunoTurma() {
         System.out.println("Selecione a Turma");
         this.dadosTurma.listar();
-        System.out.println("Informa o id da Turma");
-        Scanner scan = new Scanner(System.in);
-        int id = scan.nextInt();
+        int id = ScannerHelper.lerInteiro("Informa o id da Turma");
         Turma turma = dadosTurma.buscarTurmaPeloIndice(id);
         this.dadosAlunos.listar();
-        System.out.println("Selecione o id do aluno para adicionar a turma: " + turma.toString());
-        int idAluno = scan.nextInt();
+        int idAluno = ScannerHelper.lerInteiro("Selecione o id do aluno para adicionar a turma: " + turma.toString());
         Aluno aluno = dadosAlunos.buscarAlunoPeloIndice(idAluno);
         turma.adiconarAluno(aluno);
         System.out.println("Aluno " +aluno.getNome() + " foi adicionado com sucesso na turma" + turma.toString());
@@ -288,64 +310,76 @@ public class Universidade {
     }
 
     public void menuDiretor() {
-        System.out.println("Seja bem vindo:" + this.funcionarioLogado.getNome());
-        //teste com sub menu
-        System.out.println("1  - Listar Turma");
-        System.out.println("2  - Lista Curso");
-        System.out.println("3  - Lista Professor");
-        System.out.println("4  - Lista Diretores");
-        System.out.println("5  - Criar Curso");
-        System.out.println("6  - Criar Turma");
-        System.out.println("7  - Criar Professor");
-        System.out.println("8  - Deletar Turma");
-        System.out.println("9  - Deletar Curso");
-        System.out.println("10 - Deletar Professor");
-        System.out.println("11 - Deletar Diretores");
-        System.out.println("12 - Promover Professor");
-
-
-        Scanner scan = new Scanner(System.in);
-        System.out.println("Selecine uma opção:");
-        int opcao = scan.nextInt();
-
+        int[] opcoes = {1, 2, 3, 4, 5,6,7};
+        int opcao = 0;
+        do {
+            String questao = " Seja bem vindo:" + this.funcionarioLogado.getNome() +
+                    "\n 1  - Listar Alunos\n" +
+                    " 2  - Lista Professor\n" +
+                    " 3  - Criar Aluno\n" +
+                    " 4  - Criar Professor\n" +
+                    " 5  - Deletar Aluno\n" +
+                    " 6  - Deletar Professor\n" +
+                    " 7  - Promover Professor \n\n" +
+                    " Selecine uma opção:";
+            opcao = ScannerHelper.lerInteiro(questao);
+        }while (!ArrayHelper.valorExiste(opcoes,opcao));
         switch (opcao) {
             case (1):
-                this.dadosTurma.listar();
+                this.dadosAlunos.listar();
                 break;
             case (2):
-                this.dadosCurso.listar();
-                break;
-            case (3):
                 this.dadosProfessores.listar();
                 break;
+            case (3):
+                this.criarAluno();
+                break;
             case (4):
-                this.dadosDiretores.listar();
-                break;
-            case (5):
-                this.criarCurso();
-                break;
-            case (6):
-                this.criarTurma();
-                break;
-            case (7):
                 this.criarProfessor();
                 break;
-            case (8):
-                this.deletarTurma();
+            case (5):
+                this.deletarAluno();
                 break;
-            case (9):
-                this.deletarCurso();
-                break;
-            case (10):
+            case (6):
                 this.deletarProfessor();
                 break;
-            case (11):
-                this.deletarDiretor();
-                break;
-            case (12):
+            case (7):
                 this.promoverProfessor();
                 break;
+        }
+    }
 
+    private void deletarAluno() {
+        System.out.println("Selecione o Aluno a ser deletada");
+        dadosAlunos.listar();
+        int id = ScannerHelper.lerInteiro("Informa o id do Aluno");
+        dadosAlunos.removerAluno(dadosAlunos.buscarAlunoPeloIndice(id));
+        System.out.println("Aluno deletada com sucesso");
+        dadosAlunos.listar();
+
+    }
+
+    private void criarAluno() {
+        if (funcionarioLogado instanceof Diretor) {
+            try {
+                Scanner scan = new Scanner(System.in);
+                System.out.println("Cadastre um novo Aluno:");
+                String nome = ScannerHelper.lerString("Informe o nome do Aluno:");
+                String data = ScannerHelper.lerString("Informe a data de anivesário do professor: \n" +
+                        "No formato dd/mm/aaaa: Ex: 29/03/2024");
+                Aluno aluno = new Aluno(nome, DataHelper.converterStringParaData(data));
+                System.out.println("Aluno cadastrada com sucesso.");
+                this.dadosAlunos.adicionarAluno(aluno);
+                this.dadosAlunos.listar();
+            }catch (ParseException e){
+                System.out.println("Ocorreu um erro ao tentar criar a data");
+            }catch (Exception e){
+                System.out.println("Ocorreu um erro inesperado ao tenatr criar o professor");
+            }finally {
+
+            }
+        } else {
+            System.out.println("Você não tem autorização.");
         }
     }
 
@@ -353,9 +387,7 @@ public class Universidade {
         if (funcionarioLogado instanceof Diretor) {
             System.out.println("Selecione o Professor a ser promovido");
             dadosProfessores.listar();
-            System.out.println("Informa o id da Professor");
-            Scanner scan = new Scanner(System.in);
-            int id = scan.nextInt();
+            int id = ScannerHelper.lerInteiro("Informa o id do Professor");
             Professor professor = dadosProfessores.buscarProfessorPeloIndice(id);
             professor.promover();
             System.out.println("Professor promovido com sucesso");
@@ -368,9 +400,7 @@ public class Universidade {
     public void deletarTurma() {
         System.out.println("Selecione Turma a ser deletada");
         dadosTurma.listar();
-        System.out.println("Informa o id da turma");
-        Scanner scan = new Scanner(System.in);
-        int id = scan.nextInt();
+        int id = ScannerHelper.lerInteiro("Informa o id da Turma");
         dadosTurma.removerTurma(dadosTurma.buscarTurmaPeloIndice(id));
         System.out.println("Turma deletada com sucesso");
     }
@@ -379,9 +409,7 @@ public class Universidade {
     public void deletarCurso() {
         System.out.println("Selecione o Curso a ser deletada");
         dadosCurso.listar();
-        System.out.println("Informa o id da Curso");
-        Scanner scan = new Scanner(System.in);
-        int id = scan.nextInt();
+        int id = ScannerHelper.lerInteiro("Informa o id da Curso");
         Curso curso = dadosCurso.buscarCursoPeloIndice(id);
         for (Aluno aluno : dadosAlunos.getAlunos()) {
             aluno.getCursos().remove(curso);
@@ -395,9 +423,7 @@ public class Universidade {
     public void deletarProfessor() {
         System.out.println("Selecione o Professor a ser deletada");
         dadosProfessores.listar();
-        System.out.println("Informa o id da Professor");
-        Scanner scan = new Scanner(System.in);
-        int id = scan.nextInt();
+        int id = ScannerHelper.lerInteiro("Informa o id da Professor");
         Professor professor = dadosProfessores.buscarProfessorPeloIndice(id);
         if (funcionarioLogado == professor) {
             System.out.println("Selecione um professor diferente para deletar");
@@ -410,9 +436,7 @@ public class Universidade {
     public void deletarDiretor() {
         System.out.println("Selecione o Diretor a ser deletada");
         dadosDiretores.listar();
-        System.out.println("Informa o id da Diretor");
-        Scanner scan = new Scanner(System.in);
-        int id = scan.nextInt();
+        int id = ScannerHelper.lerInteiro("Informa o id da Diretor");
         Diretor diretor = dadosDiretores.buscarDiretorPeloIndice(id);
         if (funcionarioLogado == diretor) {
             System.out.println("Selecione um diretor diferente para deletar");
@@ -428,11 +452,10 @@ public class Universidade {
         if (funcionarioLogado instanceof Diretor) {
             Scanner scan = new Scanner(System.in);
             System.out.println("Cadastro de novo curso:");
-            System.out.println("Informe o nome do curso:");
-            String nome = scan.nextLine();
+            String nome = ScannerHelper.lerString("Informe o nome do curso:");
             System.out.println("Selecione o ID do professor responsável pelo curso:");
             this.dadosProfessores.listar();
-            int id = scan.nextInt();
+            int id = ScannerHelper.lerInteiro("");
             Professor professor = dadosProfessores.buscarProfessorPeloIndice(id);
             Curso novoCurso = new Curso(nome, professor);
             this.dadosCurso.adicionarCurso(novoCurso);
@@ -447,11 +470,10 @@ public class Universidade {
         if (funcionarioLogado instanceof Diretor) {
             Scanner scan = new Scanner(System.in);
             System.out.println("Cadastre a nova turma:");
-            System.out.println("Informe o ano da turma:");
-            String nome = scan.nextLine();
+            String nome = ScannerHelper.lerString("Informe o ano da turma:");
             System.out.println("Selecione o ID do curso da turma:");
             this.dadosCurso.listar();
-            int id = scan.nextInt();
+            int id = ScannerHelper.lerInteiro("");
             Curso curso = dadosCurso.buscarCursoPeloIndice(id);
             Turma novaTurma = new Turma(nome, curso);
             this.dadosTurma.adicionarTurma(novaTurma);
@@ -470,45 +492,89 @@ public class Universidade {
 
     public void criarProfessor() {
         if (funcionarioLogado instanceof Diretor) {
-            Scanner scan = new Scanner(System.in);
-            System.out.println("Cadastre o novo professor:");
-            System.out.println("Informe o nome do professor:");
-            String nome = scan.nextLine();
-            System.out.println("Informe o salário do professor:");
-            double salario = scan.nextDouble();
-            System.out.println("Informe a data de anivesário do professor:");
-            System.out.println("No formato aaaa-mm-dd: Ex: 2024-12-29");
-            String data = scan.next();
-            System.out.println("Informe a data de contratação do professor:");
-            System.out.println("No formato aaaa-mm-dd: Ex: 2024-12-29");
-            String dataContratacao = scan.next();
-            System.out.println("Selecione a senioridade do professor:");
-            System.out.println("1 - Iniciante: ");
-            System.out.println("2 - Avançado: ");
-            System.out.println("3 - Experiente: ");
-            int opcaoCargo = scan.nextInt();
+            try {
 
-            CargoFuncionario cargoFuncionario = null;
+                System.out.println("Cadastre o novo professor:");
+                String nome = ScannerHelper.lerString("Informe o nome do professor:");
+                double salario = ScannerHelper.lerDouble("Informe o salário do professor:");
+                String data = ScannerHelper.lerString("Informe a data de anivesário do professor: \n" +
+                        "No formato dd/mm/aaaa: Ex: 29/03/2024");
+                String dataContratacao = ScannerHelper.lerString("Informe a data de contratação do professor: \n" +
+                        "No formato dd/mm/aaaa: Ex: 29/03/2024");
+                int opcaoCargo = ScannerHelper.lerInteiro("Selecione a senioridade do professor:\n" +
+                        "1 - Iniciante: \n" +
+                        "2 - Avançado: \n" +
+                        "3 - Experiente: \n");
 
-            switch (opcaoCargo) {
-                case 1:
-                    cargoFuncionario = CargoFuncionario.INICIANTE;
-                    break;
-                case 2:
-                    cargoFuncionario = CargoFuncionario.AVANCADO;
-                    break;
-                case 3:
-                    cargoFuncionario = CargoFuncionario.EXPERIENTE;
-                    break;
+                CargoFuncionario cargoFuncionario = null;
+
+                switch (opcaoCargo) {
+                    case 1:
+                        cargoFuncionario = CargoFuncionario.INICIANTE;
+                        break;
+                    case 2:
+                        cargoFuncionario = CargoFuncionario.AVANCADO;
+                        break;
+                    case 3:
+                        cargoFuncionario = CargoFuncionario.EXPERIENTE;
+                        break;
+                }
+                Professor professor = new Professor(nome, salario, DataHelper.converterStringParaData(data), DataHelper.converterStringParaData(dataContratacao), cargoFuncionario);
+                this.dadosProfessores.adicionarProfessor(professor);
+                System.out.println("Professor cadastrado com sucesso.");
+                this.dadosProfessores.listar();
+            }catch (ParseException e){
+                System.out.println("Ocorreu um erro ao tentar criar a data");
+            }catch (Exception e){
+                System.out.println("Ocorreu um erro inesperado ao tenatr criar o professor");
+            }finally {
+
             }
-
-            Professor professor = new Professor(nome, salario, data, dataContratacao, cargoFuncionario);
-            this.dadosProfessores.adicionarProfessor(professor);
-            System.out.println("Professor cadastrado com sucesso.");
-            this.dadosProfessores.listar();
         } else {
             System.out.println("Você não tem autorização.");
         }
+
+    }
+
+
+
+    public void populeDados(){
+        try {
+            this.getDadosTurma().adicionarTurma(new Turma("2024", new Curso("FMT")));
+            this.getDadosTurma().adicionarTurma(new Turma("2023", new Curso("FMT1")));
+            this.getDadosTurma().adicionarTurma(new Turma("2022", new Curso("FMT2")));
+            this.getDadosTurma().adicionarTurma(new Turma("2021", new Curso("FMT3")));
+            this.getDadosProfessores().adicionarProfessor(new Professor("Prof 1", 10.00, DataHelper.converterStringParaData("02/02/2024"), DataHelper.converterStringParaData("02/02/2024"), CargoFuncionario.AVANCADO));
+            this.getDadosProfessores().adicionarProfessor(new Professor("Prof 2", 10.00, DataHelper.converterStringParaData("03/03/2024"), DataHelper.converterStringParaData("03/03/2024"), CargoFuncionario.EXPERIENTE));
+            this.getDadosProfessores().adicionarProfessor(new Professor("Prof 3", 10.00, DataHelper.converterStringParaData("04/04/2024"), DataHelper.converterStringParaData("04/04/2024"), CargoFuncionario.INICIANTE));
+            this.getDadosProfessores().adicionarProfessor(new Professor("Prof 4", 10.00, DataHelper.converterStringParaData("06/06/2024"), DataHelper.converterStringParaData("06/06/2024"), CargoFuncionario.AVANCADO));
+            this.getDadosDiretores().adicionarDiretor(new Diretor("Dir 1", 10.00, DataHelper.converterStringParaData("02/02/2024"), CargoFuncionario.AVANCADO));
+            this.getDadosDiretores().adicionarDiretor(new Diretor("Dir 2", 10.00, DataHelper.converterStringParaData("03/03/2024"), CargoFuncionario.EXPERIENTE));
+            this.getDadosDiretores().adicionarDiretor(new Diretor("Dir 3", 10.00, DataHelper.converterStringParaData("04/04/2024"), CargoFuncionario.INICIANTE));
+            this.getDadosDiretores().adicionarDiretor(new Diretor("Dir 4", 10.00, DataHelper.converterStringParaData("06/06/2024"), CargoFuncionario.AVANCADO));
+            this.getDadosCurso().adicionarCurso(new Curso("FMT", this.getDadosProfessores().buscarProfessorPeloIndice(0)));
+            this.getDadosCurso().adicionarCurso(new Curso("FMT1", this.getDadosProfessores().buscarProfessorPeloIndice(1)));
+            this.getDadosCurso().adicionarCurso(new Curso("FMT2", this.getDadosProfessores().buscarProfessorPeloIndice(2)));
+            this.getDadosCurso().adicionarCurso(new Curso("FMT3", this.getDadosProfessores().buscarProfessorPeloIndice(0)));
+            this.getDadosAlunos().adicionarAluno(new Aluno("aluno 1", DataHelper.converterStringParaData("02/02/2024")));
+            this.getDadosAlunos().adicionarAluno(new Aluno("aluno 2", DataHelper.converterStringParaData("03/03/2024")));
+            this.getDadosAlunos().adicionarAluno(new Aluno("aluno 3", DataHelper.converterStringParaData("04/04/2024")));
+            this.getDadosAlunos().adicionarAluno(new Aluno("aluno 5", DataHelper.converterStringParaData("06/06/2024")));
+            this.getDadosAlunos().adicionarAluno(new Aluno("aluno 4", DataHelper.converterStringParaData("05/05/2024")));
+            this.getDadosAlunos().adicionarAluno(new Aluno("aluno 6", DataHelper.converterStringParaData("09/07/2024")));
+
+//        this.setAlunoLogado(this.getDadosAlunos().buscarAlunoPeloIndice(0));
+//        this.getAlunoLogado().adicionarCurso(this.getDadosCurso().buscarCursoPeloIndice(0));
+//        this.getAlunoLogado().adicionarCurso(this.getDadosCurso().buscarCursoPeloIndice(1));
+//        this.getAlunoLogado().setMatricula(StatusMatricula.FORMADO);
+//        this.getAlunoLogado().setMatricula(StatusMatricula.TRANCADO);
+        this.setFuncionarioLogado(this.getDadosProfessores().buscarProfessorPeloIndice(0));
+//        this.setFuncionarioLogado(this.getDadosDiretores().buscarDiretorPeloIndice(0));
+        }catch (ParseException e){
+            throw new RuntimeException("ocorreu um Erro:" +e.getMessage());
+        }
+
+
 
     }
 
