@@ -1,7 +1,5 @@
 package classes.dados;
 
-import classes.Aluno;
-import classes.Funcionario;
 import classes.Professor;
 import excecoes.BuscaVazia;
 

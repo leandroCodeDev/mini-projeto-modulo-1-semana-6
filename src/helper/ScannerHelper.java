@@ -14,22 +14,37 @@ public class ScannerHelper {
     }
 
     public static int lerInteiro(String mensagem) {
-        System.out.print(mensagem);
-        int valor = scanner.nextInt();
-        limparLinha();
-        return valor;
+        do {
+            try {
+                System.out.println(mensagem);
+                int valor = scanner.nextInt();
+                limparLinha();
+                return valor;
+            } catch (Exception e) {
+                System.out.println("Informe o valor correto");
+                scanner.nextLine();
+            }
+        } while (true);
     }
 
     public static double lerDouble(String mensagem) {
-        System.out.print(mensagem);
-        double valor = scanner.nextDouble();
-        limparLinha();
-        return valor;
+        do {
+            try {
+                System.out.println(mensagem);
+                double valor = scanner.nextDouble();
+                limparLinha();
+                return valor;
+            } catch (Exception e) {
+                System.out.println("Informe o valor correto");
+                scanner.nextLine();
+            }
+        } while (true);
     }
 
     public static String lerString(String mensagem) {
-        System.out.print(mensagem);
+        System.out.println(mensagem);
         String valor = scanner.next();
+        valor += scanner.nextLine();
         limparLinha();
         return valor;
     }
