@@ -48,4 +48,8 @@ public class DadosProfessores {
         }
         return null;
     }
+
+    public ArrayList<Professor> getProfessores() {
+        return professores;
+    }
 }
