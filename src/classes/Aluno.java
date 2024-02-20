@@ -76,7 +76,7 @@ public class Aluno {
         if (this.matricula == StatusMatricula.ATIVO) {
             return false;
         }
-        this.matricula = StatusMatricula.TRANCADO;
+        this.matricula = StatusMatricula.ATIVO;
         return true;
     }
 
