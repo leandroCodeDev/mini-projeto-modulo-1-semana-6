@@ -1,13 +1,24 @@
 package classes.dados;
 
+import classes.Professor;
 import classes.Turma;
+import helper.ArrayHelper;
 
 import java.util.ArrayList;
 
 public class DadosTurma {
     private final ArrayList<Turma> turmas = new ArrayList<>();
 
-    public void adicionarTurma(Turma turma) {
+    public void adicionarTurma(Turma turma) throws Exception {
+        boolean alunoExiste = ArrayHelper.objetoExiste(turmas, turma);
+        if(alunoExiste){
+            throw new Exception("Curso ja existe dentro da univercidade");
+        }
+        for(Turma t: turmas){
+            if(turma.getAno().equals(t.getAno())){
+                throw new Exception("Curso ja existe dentro da univercidade");
+            }
+        }
         turmas.add(turma);
     }
 

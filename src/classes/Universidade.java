@@ -328,6 +328,7 @@ public class Universidade {
                 turma.listarAlunos();
             } catch (Exception e) {
                 System.out.println("Ocorreu um erro inesperado, tente mais tarde.");
+                System.out.println(e.getMessage());
             }
         } else {
             System.out.println("Você não tem turmas para gerenciar.");
@@ -434,7 +435,6 @@ public class Universidade {
     private void criarAluno() {
         if (funcionarioLogado instanceof Diretor) {
             try {
-                Scanner scan = new Scanner(System.in);
                 System.out.println("Cadastre um novo Aluno:");
                 String nome = ScannerHelper.lerString("Informe o nome do Aluno:");
                 String data = ScannerHelper.lerString("Informe a data de anivesário do Aluno: \n" +
@@ -444,14 +444,16 @@ public class Universidade {
                     throw new Exception("Aluno já existe dentro dos dados da universidade.");
 
                 }
+                this.dadosAlunos.adicionarAluno(aluno);
                 System.out.println("Aluno cadastrada com sucesso.");
 
-                this.dadosAlunos.adicionarAluno(aluno);
                 this.dadosAlunos.listar();
             } catch (ParseException e) {
                 System.out.println("Ocorreu um erro ao tentar criar a data");
+                System.out.println(e.getMessage());
             } catch (Exception e) {
                 System.out.println("Ocorreu um erro inesperado ao tentar criar o Aluno");
+                System.out.println(e.getMessage());
             } finally {
                 System.out.println("Fim da rotina Criar Aluno");
             }
@@ -544,6 +546,7 @@ public class Universidade {
                 this.dadosCurso.listar();
             } catch (Exception e) {
                 System.out.println("Ocorreu um erro inesperado ao tentar criar um curso.");
+                System.out.println(e.getMessage());
             }
         } else {
             System.out.println("Você não tem autorização.");
@@ -571,6 +574,7 @@ public class Universidade {
                 this.dadosTurma.listar();
             } catch (Exception e) {
                 System.out.println("Ocorreu um erro inesperado ao tentar criar uma nova turma");
+                System.out.println(e.getMessage());
             }
         } else {
             System.out.println("Você não tem autorização.");
@@ -622,8 +626,10 @@ public class Universidade {
                 this.dadosProfessores.listar();
             } catch (ParseException e) {
                 System.out.println("Ocorreu um erro ao tentar criar a data");
+                System.out.println(e.getMessage());
             } catch (Exception e) {
                 System.out.println("Ocorreu um erro inesperado ao tenatr criar o professor");
+                System.out.println(e.getMessage());
             } finally {
                 System.out.println("Fim da rotina Criar professor");
             }
@@ -634,7 +640,7 @@ public class Universidade {
     }
 
 
-    public void populeDados() {
+    public void populeDados() throws Exception {
         try {
 
             this.getDadosProfessores().adicionarProfessor(new Professor("Prof 1", 10.00, DataHelper.converterStringParaData("02/02/2024"), DataHelper.converterStringParaData("02/02/2024"), CargoFuncionario.AVANCADO));
