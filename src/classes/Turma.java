@@ -20,6 +20,8 @@ public class Turma{
         this.alunos = alunos;
     }
 
+
+
     public String getAno() {
         return ano;
     }
@@ -52,8 +54,22 @@ public class Turma{
         this.alunos.remove(aluno);
     }
 
+    public void removerAluno(int indece) {
+        alunos.remove(alunos.get(indece));
+    }
+
+    public void listarAlunos() {
+        System.out.println("*** Lista de Alunos da turma ***");
+        for (int i = 0; i < alunos.size(); i++) {
+            System.out.println("ID: "+i+" - " + alunos.get(i).toString());
+        }
+    }
+
     @Override
     public String toString() {
-        return "Turma [ ano:" + ano +" Curso: " + curso.toString() + "]";
+        return "Turma do curso "+this.curso.getNome()+" do ano "+ this.ano;
     }
+
+
+
 }

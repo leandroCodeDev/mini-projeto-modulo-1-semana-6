@@ -1,6 +1,5 @@
 package classes.dados;
 
-import classes.Funcionario;
 import classes.Professor;
 import excecoes.BuscaVazia;
 
@@ -34,4 +33,19 @@ public class DadosProfessores {
         return professores.get(index);
     }
 
+    public void listar() {
+        System.out.println("*** Lista de Professores ***");
+        for (int i = 0; i < professores.size(); i++) {
+            System.out.println("ID: "+i+" - " + professores.get(i).toString());
+        }
+    }
+
+    public Professor buscaPeloNome(String nome){
+        for (Professor a : professores) {
+            if (a.getNome().equals(nome)) {
+                return a;
+            }
+        }
+        return null;
+    }
 }

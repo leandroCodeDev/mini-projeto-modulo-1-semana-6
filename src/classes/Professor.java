@@ -3,6 +3,7 @@ package classes;
 import enums.CargoFuncionario;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.util.Scanner;
@@ -18,21 +19,9 @@ public class Professor extends Funcionario {
      * @param dataNascimento format yyyy-MM-dd
      * @param dataContratacao format yyyy-MM-dd
      */
-    public Professor (String nome, Double salario, String dataNascimento, String dataContratacao, CargoFuncionario cargo) {
+    public Professor (String nome, Double salario, Date dataNascimento, Date dataContratacao, CargoFuncionario cargo) {
         super (nome, salario, dataContratacao, cargo);
-
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        Date date = null;
-        try {
-            date = dateFormat.parse(dataNascimento);
-            System.out.println("Parsed Date: " + date);
-        } catch (ParseException e) {
-            System.out.println("Error parsing date: " + e.getMessage());
-        } finally {
-            date = new Date();
-        }
-
-        this.dataNascimento = date;
+        this.dataNascimento = dataNascimento;
     }
 
     public Date getDataNascimento() {
@@ -51,8 +40,10 @@ public class Professor extends Funcionario {
         this.dataNascimento = new Date(dataNascimento);
     }
 
+
+
     @Override
     public String toString() {
-        return "Professor [ dataNascimento:" + dataNascimento.toString() + super.toString() + "]";
+        return "nome: " +super.getNome()+ " Cargo: " + super.getCargo();
     }
 }

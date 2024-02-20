@@ -1,9 +1,7 @@
 package classes;
 
 import enums.StatusMatricula;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import helper.DataHelper;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -12,31 +10,8 @@ public class Aluno {
     private String nome;
 
     private Date dataNascimento;
-    private ArrayList<Curso> cursos;
+    private ArrayList<Curso> cursos = new ArrayList<>();
     private StatusMatricula matricula;
-
-
-    /**
-     * @param nome
-     * @param dataNascimento - Formato yyyy-MM-dd
-     */
-    public Aluno(String nome, String dataNascimento) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        Date date = null;
-        try {
-            date = dateFormat.parse(dataNascimento);
-            System.out.println("Parsed Date: " + date);
-        } catch (ParseException e) {
-            System.out.println("Error parsing date: " + e.getMessage());
-        } finally {
-            date = new Date();
-        }
-
-        this.nome = nome;
-        this.dataNascimento = date;
-        this.matricula = StatusMatricula.ATIVO;
-
-    }
 
     public Aluno(String nome, Date dataNascimento) {
         this.nome = nome;
@@ -84,9 +59,37 @@ public class Aluno {
         this.cursos.remove(curso);
     }
 
+    public void removerCurso(int indice) {
+        this.cursos.remove(this.cursos.get(indice));
+    }
+
+
+    public boolean trancarMatricula() {
+        if (this.matricula == StatusMatricula.TRANCADO) {
+            return false;
+        }
+        this.matricula = StatusMatricula.TRANCADO;
+        return true;
+    }
+
+    public boolean ativarMatricula() {
+        if (this.matricula == StatusMatricula.ATIVO) {
+            return false;
+        }
+        this.matricula = StatusMatricula.ATIVO;
+        return true;
+    }
+
 
     @Override
     public String toString() {
-        return "Aluno [nome=" + nome + ", dataNascimento=" + dataNascimento.toString() + " Matricula: " + matricula.getSituacao() + " Matricula descrição: " + matricula.getDescricao() + "]";
+        return "Aluno [nome=" + nome + ", dataNascimento=" + DataHelper.converterDataParaString(dataNascimento) + " Matricula: " + matricula.getSituacao() + " Matricula descrição: " + matricula.getDescricao() + "]";
+    }
+
+    public void listarCursoMatriculados() {
+        System.out.println("*** Lista de Cursos matriculados ***");
+        for (int i = 0; i < cursos.size(); i++) {
+            System.out.println("ID: " + i + " - " + cursos.get(i).toString());
+        }
     }
 }
