@@ -28,4 +28,8 @@ public class DadosCurso {
             System.out.println("ID: "+i+" - " + cursos.get(i).toString());
         }
     }
+
+    public ArrayList<Curso> getCursos() {
+        return cursos;
+    }
 }

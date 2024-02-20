@@ -9,6 +9,7 @@ import helper.ScannerHelper;
 
 import javax.xml.crypto.Data;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Universidade {
@@ -255,13 +256,22 @@ public class Universidade {
     }
 
     private void AdicionarCursoEmAluno() {
-        System.out.println("Selecione um curso para se matricular");
-        this.dadosCurso.listar();
-        int opcao = ScannerHelper.lerInteiro("Informa o id da Curso");
-        Curso curso = dadosCurso.buscarCursoPeloIndice(opcao);
-        this.alunoLogado.adicionarCurso(curso);
-        System.out.println("Curso adicionado com sucesso");
-        this.alunoLogado.listarCursoMatriculados();
+        try {
+            System.out.println("Selecione um curso para se matricular");
+            this.dadosCurso.listar();
+            int opcao = ScannerHelper.lerInteiro("Informa o id da Curso");
+            Curso curso = dadosCurso.buscarCursoPeloIndice(opcao);
+            if (ArrayHelper.objetoExiste(alunoLogado.getCursos(), curso)) {
+                    throw new Exception("Curso já existe dentro do aluno.");
+
+            }
+            this.alunoLogado.adicionarCurso(curso);
+            System.out.println("Curso adicionado com sucesso");
+            this.alunoLogado.listarCursoMatriculados();
+        } catch (Exception e){
+            System.out.println("Ocorreu um erro inesperado ao tentar adicionar curso.");
+            System.out.println(e.getMessage());
+        }
     }
 
     public void menuProfessor() {
@@ -298,6 +308,31 @@ public class Universidade {
     }
 
     private void removerAlunoTurma() {
+
+        ArrayList<Turma> turmas = this.getTurmaDeProfessor((Professor) this.funcionarioLogado);
+
+        if (turmas.size() != 0) {
+            try {
+                System.out.println("Selecione a Turma");
+                System.out.println("*** Lista de Turmas ***");
+                for (int i = 0; i < turmas.size(); i++) {
+                    System.out.println("ID: " + i + " - " + turmas.get(i).toString());
+                }
+                int id = ScannerHelper.lerInteiro("Informa o id da Turma");
+                Turma turma = turmas.get(id);
+                turma.listarAlunos();
+                int idAluno = ScannerHelper.lerInteiro("Selecione o id do aluno para remover da turma: " + turma.toString());
+                Aluno aluno = turma.getAlunos().get(idAluno);
+                turma.removerAluno(aluno);
+                System.out.println("Aluno " + aluno.getNome() + " foi removido com sucesso na turma" + turma.toString());
+                turma.listarAlunos();
+            } catch (Exception e) {
+                System.out.println("Ocorreu um erro inesperado, tente mais tarde.");
+            }
+        } else {
+            System.out.println("Você não tem turmas para gerenciar.");
+        }
+
         System.out.println("Selecione o Curso");
         this.dadosTurma.listar();
         int id = ScannerHelper.lerInteiro("Informa o id da Turma");
@@ -309,16 +344,34 @@ public class Universidade {
     }
 
     private void adicionarAlunoTurma() {
-        System.out.println("Selecione a Turma");
-        this.dadosTurma.listar();
-        int id = ScannerHelper.lerInteiro("Informa o id da Turma");
-        Turma turma = dadosTurma.buscarTurmaPeloIndice(id);
-        this.dadosAlunos.listar();
-        int idAluno = ScannerHelper.lerInteiro("Selecione o id do aluno para adicionar a turma: " + turma.toString());
-        Aluno aluno = dadosAlunos.buscarAlunoPeloIndice(idAluno);
-        turma.adiconarAluno(aluno);
-        System.out.println("Aluno " + aluno.getNome() + " foi adicionado com sucesso na turma" + turma.toString());
-        turma.listarAlunos();
+
+        ArrayList<Turma> turmas = this.getTurmaDeProfessor((Professor) this.funcionarioLogado);
+        if (turmas.size() != 0) {
+            try {
+                System.out.println("Selecione a Turma");
+                System.out.println("*** Lista de Turmas ***");
+                for (int i = 0; i < turmas.size(); i++) {
+                    System.out.println("ID: " + i + " - " + turmas.get(i).toString());
+                }
+                int id = ScannerHelper.lerInteiro("Informa o id da Turma");
+                Turma turma = turmas.get(id);
+                this.dadosAlunos.listar();
+                int idAluno = ScannerHelper.lerInteiro("Selecione o id do aluno para adicionar a turma: " + turma.toString());
+                Aluno aluno = dadosAlunos.buscarAlunoPeloIndice(idAluno);
+                if (ArrayHelper.objetoExiste(turma.getAlunos(), aluno)) {
+                    throw new Exception("Aluno já existe dentro da turma.");
+
+                }
+                turma.adiconarAluno(aluno);
+                System.out.println("Aluno " + aluno.getNome() + " foi adicionado com sucesso na turma" + turma.toString());
+                turma.listarAlunos();
+            } catch (Exception e) {
+                System.out.println("Ocorreu um erro inesperado, tente mais tarde.");
+                System.out.println(e.getMessage());
+            }
+        } else {
+            System.out.println("Você não tem turmas para gerenciar.");
+        }
     }
 
     public void menuDiretor() {
@@ -387,7 +440,12 @@ public class Universidade {
                 String data = ScannerHelper.lerString("Informe a data de anivesário do Aluno: \n" +
                         "No formato dd/mm/aaaa: Ex: 29/03/2024");
                 Aluno aluno = new Aluno(nome, DataHelper.converterStringParaData(data));
+                if (ArrayHelper.objetoExiste(this.dadosAlunos.getAlunos(), aluno)) {
+                    throw new Exception("Aluno já existe dentro dos dados da universidade.");
+
+                }
                 System.out.println("Aluno cadastrada com sucesso.");
+
                 this.dadosAlunos.adicionarAluno(aluno);
                 this.dadosAlunos.listar();
             } catch (ParseException e) {
@@ -469,17 +527,24 @@ public class Universidade {
 
     public void criarCurso() {
         if (funcionarioLogado instanceof Diretor) {
-            Scanner scan = new Scanner(System.in);
-            System.out.println("Cadastro de novo curso:");
-            String nome = ScannerHelper.lerString("Informe o nome do curso:");
-            System.out.println("Selecione o ID do professor responsável pelo curso:");
-            this.dadosProfessores.listar();
-            int id = ScannerHelper.lerInteiro("");
-            Professor professor = dadosProfessores.buscarProfessorPeloIndice(id);
-            Curso novoCurso = new Curso(nome, professor);
-            this.dadosCurso.adicionarCurso(novoCurso);
-            System.out.println("Curso cadastrado com sucesso.");
-            this.dadosCurso.listar();
+            try {
+                System.out.println("Cadastro de novo curso:");
+                String nome = ScannerHelper.lerString("Informe o nome do curso:");
+                System.out.println("Selecione o ID do professor responsável pelo curso:");
+                this.dadosProfessores.listar();
+                int id = ScannerHelper.lerInteiro("");
+                Professor professor = dadosProfessores.buscarProfessorPeloIndice(id);
+                Curso novoCurso = new Curso(nome, professor);
+                if (ArrayHelper.objetoExiste(this.dadosCurso.getCursos(), novoCurso)) {
+                    throw new Exception("Curso já existe dentro dos dados da universidade.");
+
+                }
+                this.dadosCurso.adicionarCurso(novoCurso);
+                System.out.println("Curso cadastrado com sucesso.");
+                this.dadosCurso.listar();
+            } catch (Exception e) {
+                System.out.println("Ocorreu um erro inesperado ao tentar criar um curso.");
+            }
         } else {
             System.out.println("Você não tem autorização.");
         }
@@ -487,17 +552,26 @@ public class Universidade {
 
     public void criarTurma() {
         if (funcionarioLogado instanceof Diretor) {
-            Scanner scan = new Scanner(System.in);
-            System.out.println("Cadastre a nova turma:");
-            String nome = ScannerHelper.lerString("Informe o ano da turma:");
-            System.out.println("Selecione o ID do curso da turma:");
-            this.dadosCurso.listar();
-            int id = ScannerHelper.lerInteiro("");
-            Curso curso = dadosCurso.buscarCursoPeloIndice(id);
-            Turma novaTurma = new Turma(nome, curso);
-            this.dadosTurma.adicionarTurma(novaTurma);
-            System.out.println("Turma cadastrada com sucesso.");
-            this.dadosTurma.listar();
+
+            try {
+
+                System.out.println("Cadastre a nova turma:");
+                String nome = ScannerHelper.lerString("Informe o ano da turma:");
+                System.out.println("Selecione o ID do curso da turma:");
+                this.dadosCurso.listar();
+                int id = ScannerHelper.lerInteiro("");
+                Curso curso = dadosCurso.buscarCursoPeloIndice(id);
+                Turma novaTurma = new Turma(nome, curso);
+                if (ArrayHelper.objetoExiste(this.dadosTurma.getTurmas(), novaTurma)) {
+                    throw new Exception("Professor já existe dentro dos dados da universidade.");
+
+                }
+                this.dadosTurma.adicionarTurma(novaTurma);
+                System.out.println("Turma cadastrada com sucesso.");
+                this.dadosTurma.listar();
+            } catch (Exception e) {
+                System.out.println("Ocorreu um erro inesperado ao tentar criar uma nova turma");
+            }
         } else {
             System.out.println("Você não tem autorização.");
         }
@@ -539,6 +613,10 @@ public class Universidade {
                         break;
                 }
                 Professor professor = new Professor(nome, salario, DataHelper.converterStringParaData(data), DataHelper.converterStringParaData(dataContratacao), cargoFuncionario);
+                if (ArrayHelper.objetoExiste(this.dadosProfessores.getProfessores(), professor)) {
+                    throw new Exception("Professor já existe dentro dos dados da universidade.");
+
+                }
                 this.dadosProfessores.adicionarProfessor(professor);
                 System.out.println("Professor cadastrado com sucesso.");
                 this.dadosProfessores.listar();
@@ -558,10 +636,7 @@ public class Universidade {
 
     public void populeDados() {
         try {
-            this.getDadosTurma().adicionarTurma(new Turma("2024", new Curso("FMT")));
-            this.getDadosTurma().adicionarTurma(new Turma("2023", new Curso("FMT1")));
-            this.getDadosTurma().adicionarTurma(new Turma("2022", new Curso("FMT2")));
-            this.getDadosTurma().adicionarTurma(new Turma("2021", new Curso("FMT3")));
+
             this.getDadosProfessores().adicionarProfessor(new Professor("Prof 1", 10.00, DataHelper.converterStringParaData("02/02/2024"), DataHelper.converterStringParaData("02/02/2024"), CargoFuncionario.AVANCADO));
             this.getDadosProfessores().adicionarProfessor(new Professor("Prof 2", 10.00, DataHelper.converterStringParaData("03/03/2024"), DataHelper.converterStringParaData("03/03/2024"), CargoFuncionario.EXPERIENTE));
             this.getDadosProfessores().adicionarProfessor(new Professor("Prof 3", 10.00, DataHelper.converterStringParaData("04/04/2024"), DataHelper.converterStringParaData("04/04/2024"), CargoFuncionario.INICIANTE));
@@ -580,19 +655,44 @@ public class Universidade {
             this.getDadosAlunos().adicionarAluno(new Aluno("aluno 5", DataHelper.converterStringParaData("06/06/2024")));
             this.getDadosAlunos().adicionarAluno(new Aluno("aluno 4", DataHelper.converterStringParaData("05/05/2024")));
             this.getDadosAlunos().adicionarAluno(new Aluno("aluno 6", DataHelper.converterStringParaData("09/07/2024")));
+            this.getDadosTurma().adicionarTurma(new Turma("2024", this.getDadosCurso().buscarCursoPeloIndice(0)));
+            this.getDadosTurma().adicionarTurma(new Turma("2023", this.getDadosCurso().buscarCursoPeloIndice(0)));
+            this.getDadosTurma().adicionarTurma(new Turma("2022", this.getDadosCurso().buscarCursoPeloIndice(0)));
+            this.getDadosTurma().adicionarTurma(new Turma("2021", this.getDadosCurso().buscarCursoPeloIndice(0)));
 
-            this.setAlunoLogado(this.getDadosAlunos().buscarAlunoPeloIndice(0));
+           // this.setAlunoLogado(this.getDadosAlunos().buscarAlunoPeloIndice(0));
 //        this.getAlunoLogado().adicionarCurso(this.getDadosCurso().buscarCursoPeloIndice(0));
 //        this.getAlunoLogado().adicionarCurso(this.getDadosCurso().buscarCursoPeloIndice(1));
 //        this.getAlunoLogado().setMatricula(StatusMatricula.FORMADO);
 //        this.getAlunoLogado().setMatricula(StatusMatricula.TRANCADO);
-//        this.setFuncionarioLogado(this.getDadosProfessores().buscarProfessorPeloIndice(0));
-//        this.setFuncionarioLogado(this.getDadosDiretores().buscarDiretorPeloIndice(0));
+        //this.setFuncionarioLogado(this.getDadosProfessores().buscarProfessorPeloIndice(0));
+       this.setFuncionarioLogado(this.getDadosDiretores().buscarDiretorPeloIndice(0));
         } catch (ParseException e) {
             throw new RuntimeException("ocorreu um Erro:" + e.getMessage());
         }
 
 
+    }
+
+    public ArrayList<Turma> getTurmaDeProfessor(Professor professor){
+        ArrayList<Curso> cursos = new ArrayList<>();
+        ArrayList<Turma> turmas = new ArrayList<>();
+
+        for (Curso curso: dadosCurso.getCursos()){
+            if (curso.getProfessor() == professor) {
+                cursos.add(curso);
+            }
+        }
+
+        for (Turma turma: dadosTurma.getTurmas()){
+
+            for (Curso curso:cursos) {
+                if (curso == turma.getCurso()) {
+                    turmas.add(turma);
+                }
+            }
+        }
+        return turmas;
     }
 
 }
