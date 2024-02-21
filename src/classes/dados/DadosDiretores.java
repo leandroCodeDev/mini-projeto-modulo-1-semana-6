@@ -17,9 +17,7 @@ public class DadosDiretores {
             throw new Exception("Curso ja existe dentro da univercidade");
         }
         for(Diretor d: diretores){
-            if(diretor.getNome().equals(d.getNome())
-                && d.getId() == diretor.getId()
-            ){
+            if(diretor.getNome().equals(d.getNome())){
                 throw new Exception("Curso ja existe dentro da univercidade");
             }
         }

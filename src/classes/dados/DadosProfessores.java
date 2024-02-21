@@ -16,9 +16,7 @@ public class DadosProfessores {
             throw new Exception("Curso ja existe dentro da univercidade");
         }
         for(Professor p: professores){
-            if(professor.getNome().equals(p.getNome())
-                && p.getId() == professor.getId()
-            ){
+            if(professor.getNome().equals(p.getNome())){
                 throw new Exception("Curso ja existe dentro da univercidade");
             }
         }

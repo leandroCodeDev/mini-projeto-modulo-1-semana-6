@@ -106,37 +106,30 @@ public class Universidade {
     }
 
     private void selecionarMenu() {
-        int[] opcaoesValidas = {1, 2, 3,0};
+        int[] opcaoesValidas = {1, 2, 3};
         int opcao = 0;
         do {
             String questao = "seleciona Area de Acesso \n" +
                     " 1  - Diretor\n" +
                     " 2  - Professor\n" +
-                    " 3  - Aluno\n" +
-                    " 0  - Sair da aplicação\n\n" +
-                    " Selecine uma opção:";
+                    " 3  - Aluno\n\n" +
+                    " Selecine uma opção:\n";
             opcao = ScannerHelper.lerInteiro(questao);
         } while (!ArrayHelper.valorExiste(opcaoesValidas, opcao));
 
         switch (opcao) {
             case (1):
                 this.logarDiretor();
-                this.start();
                 break;
             case (2):
                 this.logarProfessor();
-                this.start();
                 break;
             case (3):
                 this.logarAluno();
-                this.start();
                 break;
-            case (0):
-                System.out.println("Você escolheu sair.");
-                return;
         }
 
-
+        this.start();
     }
 
     private void logarAluno() {
@@ -184,24 +177,23 @@ public class Universidade {
 
     public void menuAluno() {
         do {
-            int[] opcaoesValidas = {1, 2, 3, 4, 5,0};
+            int[] opcaoesValidas = {1, 2, 3, 4, 5};
             int opcao = 0;
             do {
                 String questao = "Seja bem vindo: " + this.alunoLogado.getNome() +
                         " \n 1  - Listar Cursos da universidade\n" +
                         " 2  - Listar seus Cursos\n" +
                         " 3  - Adicioinar Curso\n" +
-                        " 4  - Remover Curso \n";
+                        " 4  - Remover Curso\n";
 
                 if (this.alunoLogado.getMatricula() != StatusMatricula.FORMADO) {
                     if (this.alunoLogado.getMatricula() == StatusMatricula.ATIVO) {
-                        questao += " 5  - Trancar Matricula \n";
+                        questao += " 5  - Trancar Matricula \n\n";
                     } else {
-                        questao += " 5  - Ativa Matricula \n";
+                        questao += " 5  - Ativa Matricula \n\n";
                     }
                 }
-                questao += " 0  - Sair da aplicação\n\n " +
-                        " Selecine uma opção:";
+                questao += " Selecione uma opção:";
                 opcao = ScannerHelper.lerInteiro(questao);
             } while (!ArrayHelper.valorExiste(opcaoesValidas, opcao));
 
@@ -227,9 +219,6 @@ public class Universidade {
                         }
                     }
                     break;
-                case (0):
-                    System.out.println("Você escolheu sair.");
-                    return;
             }
             int querSair = ScannerHelper.lerInteiro("Digite um número (digite 0 para sair): \n");
             if (querSair == 0) {
@@ -274,6 +263,7 @@ public class Universidade {
             Curso curso = dadosCurso.buscarCursoPeloIndice(opcao);
             if (ArrayHelper.objetoExiste(alunoLogado.getCursos(), curso)) {
                     throw new Exception("Curso já existe dentro do aluno.");
+
             }
             this.alunoLogado.adicionarCurso(curso);
             System.out.println("Curso adicionado com sucesso");
@@ -286,15 +276,14 @@ public class Universidade {
 
     public void menuProfessor() {
         do {
-            int[] opcoes = {1, 2, 3,0};
+            int[] opcoes = {1, 2, 3};
             int opcao = 0;
             do {
                 String questao = " Seja bem vindo:" + this.funcionarioLogado.getNome() +
                         "\n 1  - Listar Alunos \n" +
-                        " 2  - Adicionar alunos a sua turma \n" +
-                        " 3  - Remover alunos da sua turma  \n" +
-                        " 0  - Sair da aplicação\n\n" +
-                        " Selecine uma opção:";
+                        " 2  - Adicionar alunos a uma turma \n" +
+                        " 3  - Remover alunos a uma turma \n\n" +
+                        "Selecine uma opção:";
                 opcao = ScannerHelper.lerInteiro(questao);
             } while (!ArrayHelper.valorExiste(opcoes, opcao));
             switch (opcao) {
@@ -307,9 +296,6 @@ public class Universidade {
                 case (3):
                     this.removerAlunoTurma();
                     break;
-                case (0):
-                    System.out.println("Você escolheu sair.");
-                    return;
 
             }
             int querSair = ScannerHelper.lerInteiro("Digite um número (digite 0 para sair): \n");
@@ -337,7 +323,7 @@ public class Universidade {
                 turma.listarAlunos();
                 int idAluno = ScannerHelper.lerInteiro("Selecione o id do aluno para remover da turma: " + turma.toString());
                 Aluno aluno = turma.getAlunos().get(idAluno);
-                turma.removerAluno(turma.getAlunos().get(idAluno));
+                turma.removerAluno(aluno);
                 System.out.println("Aluno " + aluno.getNome() + " foi removido com sucesso na turma" + turma.toString());
                 turma.listarAlunos();
             } catch (Exception e) {
@@ -347,6 +333,15 @@ public class Universidade {
         } else {
             System.out.println("Você não tem turmas para gerenciar.");
         }
+
+        System.out.println("Selecione o Curso");
+        this.dadosTurma.listar();
+        int id = ScannerHelper.lerInteiro("Informa o id da Turma");
+        Turma turma = dadosTurma.buscarTurmaPeloIndice(id);
+        turma.listarAlunos();
+        int idAluno = ScannerHelper.lerInteiro("Selecione o id do aluno para remover da turma: " + turma.toString());
+        turma.removerAluno(idAluno);
+        System.out.println("Aluno foi removido com sucesso da turma" + turma.toString());
     }
 
     private void adicionarAlunoTurma() {
@@ -381,9 +376,9 @@ public class Universidade {
     }
 
     public void menuDiretor() {
-        int[] opcoes = {1, 2, 3, 4, 5, 6, 7,0};
-        int opcao = 0;
         do {
+            int[] opcoes = {1, 2, 3, 4, 5, 6, 7};
+            int opcao = 0;
             do {
                 String questao = " Seja bem vindo:" + this.funcionarioLogado.getNome() +
                         "\n 1  - Listar Alunos\n" +
@@ -392,8 +387,7 @@ public class Universidade {
                         " 4  - Criar Professor\n" +
                         " 5  - Deletar Aluno\n" +
                         " 6  - Deletar Professor\n" +
-                        " 7  - Promover Professor \n" +
-                        " 0  - Sair da aplicação\n\n" +
+                        " 7  - Promover Professor \n\n" +
                         " Selecine uma opção:";
                 opcao = ScannerHelper.lerInteiro(questao);
             } while (!ArrayHelper.valorExiste(opcoes, opcao));
@@ -419,17 +413,13 @@ public class Universidade {
                 case (7):
                     this.promoverProfessor();
                     break;
-                case (0):
-                    System.out.println("Você escolheu sair.");
-                    return;
             }
             int querSair = ScannerHelper.lerInteiro("Digite um número (digite 0 para sair): \n");
             if (querSair == 0) {
                 System.out.println("Você escolheu sair.");
                 break; // Parar o laço se o número for 0
             }
-        } while (opcao != 0);
-
+        } while (true);
     }
 
     private void deletarAluno() {
@@ -682,7 +672,7 @@ public class Universidade {
 //        this.getAlunoLogado().setMatricula(StatusMatricula.FORMADO);
 //        this.getAlunoLogado().setMatricula(StatusMatricula.TRANCADO);
         //this.setFuncionarioLogado(this.getDadosProfessores().buscarProfessorPeloIndice(0));
-//       this.setFuncionarioLogado(this.getDadosDiretores().buscarDiretorPeloIndice(0));
+       this.setFuncionarioLogado(this.getDadosDiretores().buscarDiretorPeloIndice(0));
         } catch (ParseException e) {
             throw new RuntimeException("ocorreu um Erro:" + e.getMessage());
         }
@@ -701,6 +691,7 @@ public class Universidade {
         }
 
         for (Turma turma: dadosTurma.getTurmas()){
+
             for (Curso curso:cursos) {
                 if (curso == turma.getCurso()) {
                     turmas.add(turma);

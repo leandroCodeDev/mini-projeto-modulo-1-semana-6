@@ -15,8 +15,7 @@ public class DadosTurma {
             throw new Exception("Curso ja existe dentro da univercidade");
         }
         for(Turma t: turmas){
-            if(turma.getAno().equals(t.getAno())
-                && turma.getCurso().getNome().equals(t.getCurso().getNome())){
+            if(turma.getAno().equals(t.getAno())){
                 throw new Exception("Curso ja existe dentro da univercidade");
             }
         }
