@@ -51,7 +51,12 @@ public class Aluno {
         this.matricula = matricula;
     }
 
-    public void adicionarCurso(Curso curso) {
+    public void adicionarCurso(Curso curso) throws Exception {
+        for(Curso c:this.cursos){
+            if(c.getNome().equals(curso.getNome())){
+                throw new Exception("Aluno ja existe nessa turma");
+            }
+        }
         this.cursos.add(curso);
     }
 
