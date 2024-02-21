@@ -1,14 +1,25 @@
 package classes.dados;
 
+import classes.Curso;
 import classes.Professor;
 import excecoes.BuscaVazia;
+import helper.ArrayHelper;
 
 import java.util.ArrayList;
 
 public class DadosProfessores {
     private ArrayList<Professor> professores = new ArrayList<>();
 
-    public void adicionarProfessor(Professor professor) {
+    public void adicionarProfessor(Professor professor) throws Exception {
+        boolean alunoExiste = ArrayHelper.objetoExiste(professores, professor);
+        if(alunoExiste){
+            throw new Exception("Curso ja existe dentro da univercidade");
+        }
+        for(Professor p: professores){
+            if(professor.getNome().equals(p.getNome())){
+                throw new Exception("Curso ja existe dentro da univercidade");
+            }
+        }
         professores.add(professor);
     }
 
