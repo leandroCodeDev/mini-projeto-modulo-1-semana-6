@@ -46,7 +46,12 @@ public class Turma{
         return this.alunos;
     }
 
-    public void adiconarAluno(Aluno aluno){
+    public void adiconarAluno(Aluno aluno) throws Exception {
+        for(Aluno a:this.alunos){
+            if(a.getNome().equals(aluno.getNome())){
+                throw new Exception("Aluno ja existe nessa turma");
+            }
+        }
         this.alunos.add(aluno);
     }
 
