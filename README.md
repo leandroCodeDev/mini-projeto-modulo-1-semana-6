@@ -7,10 +7,13 @@ Este é um sistema de gerenciamento escolar, seja para um colégio ou universida
 
 ## 🚀 TECH
 - [Java](https://www.java.com/pt-BR/download/help/whatis_java.html)
+
+
+## 🔧 FERRAMENTAS
 - [IntelliJ IDEA](https://www.jetbrains.com/pt-br/idea/)
 - [Trello](https://trello.com/pt-BR)
 - [Discord](https://discord.com)
-
+  
 ## 📇 TIME
 - [Ana Helena Peres](https://github.com/anahperes)
 - [Breno Rippel](https://github.com/BrenoRippel)
@@ -33,8 +36,10 @@ This is a management system built for an education center, be it a school or uni
 
 ## 🚀 TECH
 - [Java](https://www.java.com/en/download/help/whatis_java.html)
-- [IntelliJ IDEA](https://www.jetbrains.com/idea/)
-- [Trello](https://trello.com)
+
+## 🔧 TOOLS
+- [IntelliJ IDEA](https://www.jetbrains.com/pt-br/idea/)
+- [Trello](https://trello.com/pt-BR)
 - [Discord](https://discord.com)
 
 ## 📇 TEAM
