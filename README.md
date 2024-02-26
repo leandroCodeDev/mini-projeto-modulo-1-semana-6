@@ -38,8 +38,8 @@ This is a management system built for an education center, be it a school or uni
 - [Java](https://www.java.com/en/download/help/whatis_java.html)
 
 ## 🔧 TOOLS
-- [IntelliJ IDEA](https://www.jetbrains.com/pt-br/idea/)
-- [Trello](https://trello.com/pt-BR)
+- [IntelliJ IDEA](https://www.jetbrains.com/idea/)
+- [Trello](https://trello.com)
 - [Discord](https://discord.com)
 
 ## 📇 TEAM
